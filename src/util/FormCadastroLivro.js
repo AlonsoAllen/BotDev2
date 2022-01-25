@@ -1,7 +1,7 @@
 module.exports = [
     {
-        question: 'Informe o nome do Livro?',
-        name: 'Nome Livro'
+        question: 'Informe o nome da obra?',
+        name: 'Nome Obra'
     },
     {
         question: 'Informe o usuário do autor:',

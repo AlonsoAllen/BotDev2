@@ -42,7 +42,7 @@ client.login(process.env.BOT_TOKEN)
 
         console.log(index);
         console.log(descri);
-        // console.log(">>"+message);
+        console.log(message);
 
         try {//cria o cara no schema de Obra -> é apenas temporário para testes.
             const newObra = await Obra.create({
@@ -132,11 +132,9 @@ client.login(process.env.BOT_TOKEN)
         }
     } else if (message.content.toLowerCase().startsWith("?procurar")) {
 
-        const args = message.content.split(" ");
-        console.log(args)
-        console.log(args.length)
+        const args = message.content;
 
-        if (args.length === 1) {
+        if ("?procurar" === args) {
             const argumento = await User.find({ discordId: message.author.id});
             let description = "";
             for (const i in argumento) {
@@ -155,7 +153,6 @@ client.login(process.env.BOT_TOKEN)
 
                 if (palavra) {
                     message.channel.send(palavra.description);
-                    // message.channel.send(palavra.username);
                 } else {
                     message.channel.send("Não encontrado");
                 }

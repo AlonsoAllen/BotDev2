@@ -4,6 +4,7 @@ const questions = require('../../util/FormQuestion')
 
 const { once } = require('events')
 const { MessageEmbed, MessageActionRow, MessageSelectMenu, Message } = require('discord.js')
+const { values } = require('../../util/FormQuestion')
 
 module.exports = class extends Command {
     constructor(client) {
@@ -75,7 +76,9 @@ module.exports = class extends Command {
                     const [collected, reason] = await once(collector, 'end')
                     console.log(collected)
                     console.log(reason)
-
+                    console.log("valor do formulario: " + collected.first().content)
+                    // console.log("selecao do formulario: " + collected.first().values.join(', '))
+                    
                     if (reason === 'limit') {
                         channel.bulkDelete([msg.id, collected.first().id]).catch(() => { })
                         answers.push({
@@ -83,10 +86,14 @@ module.exports = class extends Command {
                             value: collected.first().content
                         })
                     }
+
                     else if (reason === 'time') throw ('O tempo para responder a pergunta se esgotou! Formulário cancelado.')
                     else throw ('Ocorreu um erro durante a realização do formulário e este foi finalizado.')
                 }
-                console.log(answers)
+                // console.log("answers: " + answers[0])
+            }
+            for (const i of answers) {
+                console.log("ultimo answers: " + answers[i])
             }
             return answers
         }

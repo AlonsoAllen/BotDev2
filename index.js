@@ -3,6 +3,7 @@ require("dotenv").config()
 const Client = require('./src/structures/Client')
 const User = require('./src/schemas/UserSchemas')
 const Obra = require('./src/schemas/ObraSchemas')
+const Form = require('./src/schemas/FormSchemas')
 
 //const Obra = mongoose.model('Obra', ObraSchema); 
 
@@ -41,7 +42,7 @@ client.login(process.env.BOT_TOKEN)
 
         console.log(index);
         console.log(descri);
-        console.log(message);
+        // console.log(">>"+message);
 
         try {//cria o cara no schema de Obra -> é apenas temporário para testes.
             const newObra = await Obra.create({
@@ -59,29 +60,34 @@ client.login(process.env.BOT_TOKEN)
     } else if (message.content.toLowerCase().startsWith("?obras")) { //pesquisa no schema Obra
 
         const args = message.content.split(" ");
-        console.log(args)
+        console.log("?obras args: " + args)
         console.log(args.length)
+
         if (args.length === 1) {
             const argumento = await Obra.find({ discordId: message.author.id});
+            console.log("argumento: " + argumento)
             let description = "";
             for (const i in argumento) {
                 description += `${parseInt(i) + 1}) ${argumento[i].description}\n`
             }
             message.channel.send(description);
         } else {
-            const arg = args[1];
-            console.log(arg);
+            const arg = message.content.indexOf(" ");
+            const valor = message.content.slice(arg + 1);
+            
+            console.log("arg:" + valor);
 
             try {
-                const palavra = await Obra.findOne({'nome_obra': arg }); /*, function (err, obra) {
+                const palavra = await Obra.findOne({'nome_obra': valor }); /*, function (err, obra) {
                     if (err) return handleError(err);
                     // Prints "Space Ghost is a talk show host".*/
                     //console.log(obra.nome_obra, obra.discordId); 
                 //({ discordId: message.author.id});  //nao funciona mesmo igual ao de cima... ver se é pelo tipo da variavel 
-                console.log(palavra)
+                console.log("palavra:" + palavra)
 
                 if (palavra) {
                     message.channel.send(palavra.nome_obra);
+                    // message.channel.send(palavra.username);
                     //message.channel.send(palavra.id_obra);
                     //message.channel.send(palavra.genero_textual);
                     //message.channel.send(palavra.genero_literario);
@@ -129,6 +135,7 @@ client.login(process.env.BOT_TOKEN)
         const args = message.content.split(" ");
         console.log(args)
         console.log(args.length)
+
         if (args.length === 1) {
             const argumento = await User.find({ discordId: message.author.id});
             let description = "";
@@ -137,16 +144,18 @@ client.login(process.env.BOT_TOKEN)
             }
             message.channel.send(description);
         } else {
-            const arg = args[1];
-            console.log(arg);
+            const arg = message.content.indexOf(" ");
+            const valor = message.content.slice(arg + 1);
+
+            console.log("arg:" + valor);
 
             try {
-                const palavra = await User.findById(arg);
+                const palavra = await User.findOne({'description': valor });
                 console.log(palavra)
 
                 if (palavra) {
                     message.channel.send(palavra.description);
-                    message.channel.send(palavra.username);
+                    // message.channel.send(palavra.username);
                 } else {
                     message.channel.send("Não encontrado");
                 }

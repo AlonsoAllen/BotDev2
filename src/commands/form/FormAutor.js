@@ -4,6 +4,7 @@ const questions = require('../../util/FormCadastroAutor')
 
 const { once } = require('events')
 const { MessageEmbed, MessageActionRow, MessageSelectMenu, Message } = require('discord.js')
+const LivroSchema = require('../../schemas/LivroSchema')
 
 module.exports = class extends Command {
     constructor(client) {
@@ -15,6 +16,7 @@ module.exports = class extends Command {
 
     run = (interaction) => {
         interaction.reply({ content: 'Formulário de cadastro iniciado. Responda às perguntas abaixo:', ephemeral: true })
+        console.log("Formulário de Cadastro de Autor iniciado")
 
         createForm()
             .then(answers => {

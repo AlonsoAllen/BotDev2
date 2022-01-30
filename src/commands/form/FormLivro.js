@@ -1,9 +1,11 @@
 const Command = require('../../structures/Command')
-
+const mongoose = require('mongoose')
 const questions = require('../../util/FormCadastroLivro')
 
 const { once } = require('events')
 const { MessageEmbed, MessageActionRow, MessageSelectMenu, Message } = require('discord.js')
+
+const LivroSchema = require('../../schemas/LivroSchema')
 
 module.exports = class extends Command {
     constructor(client) {
@@ -15,11 +17,13 @@ module.exports = class extends Command {
 
     run = (interaction) => {
         interaction.reply({ content: 'Formulário iniciado. Responda às perguntas abaixo:', ephemeral: true })
+        console.log("=======================>>> Formulário de Cadastro de Livro iniciado <<<======================")
 
         createForm()
             .then(answers => {
                 const embed = new MessageEmbed()
                     .setTitle('Respostas do Formulário:')
+                    .setDescription('Retorno do questionário de Livros')
                     .setAuthor(interaction.user.tag, interaction.user.displayAvatarURL({ dynamic: true }))
                     .setTimestamp()
                     .setFooter(`ID do usuário: ${interaction.user.id}`)
@@ -89,6 +93,7 @@ module.exports = class extends Command {
                 console.log(answers)
             }
             return answers
+            .save()        
         }
     }
 }

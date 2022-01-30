@@ -2,6 +2,7 @@ require("dotenv").config()
 
 const Client = require('./src/structures/Client')
 const User = require('./src/schemas/UserSchemas')
+const mongoose = require('mongoose')
 
 const client = new Client({
     intents:[

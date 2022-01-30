@@ -93,7 +93,7 @@ module.exports = class extends Command {
                 console.log(answers)
             }
             return answers
-            .save()        
+                 
         }
     }
 }

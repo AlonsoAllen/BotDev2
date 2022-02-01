@@ -1,6 +1,7 @@
 const Command = require('../../structures/Command')
 
 const questions = require('../../util/FormCadastroLivro')
+const LivroSchema = require('../../schemas/LivroSchemas')
 
 const { once } = require('events')
 const { MessageEmbed, MessageActionRow, MessageSelectMenu, Message } = require('discord.js')
@@ -88,6 +89,9 @@ module.exports = class extends Command {
                 }
                 console.log(answers)
             }
+
+            LivroSchema.collection.insertMany(answers)
+
             return answers
         }
     }

@@ -3,9 +3,6 @@ require("dotenv").config()
 const Client = require('./src/structures/Client')
 const User = require('./src/schemas/UserSchemas')
 const Obra = require('./src/schemas/ObraSchemas')
-const Form = require('./src/schemas/FormSchemas')
-
-//const Obra = mongoose.model('Obra', ObraSchema); 
 
 const client = new Client({
     intents:[

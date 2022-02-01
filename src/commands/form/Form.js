@@ -76,8 +76,6 @@ module.exports = class extends Command {
                     const [collected, reason] = await once(collector, 'end')
                     console.log(collected)
                     console.log(reason)
-                    console.log("valor do formulario: " + collected.first().content)
-                    // console.log("selecao do formulario: " + collected.first().values.join(', '))
                     
                     if (reason === 'limit') {
                         channel.bulkDelete([msg.id, collected.first().id]).catch(() => { })
@@ -90,10 +88,6 @@ module.exports = class extends Command {
                     else if (reason === 'time') throw ('O tempo para responder a pergunta se esgotou! Formulário cancelado.')
                     else throw ('Ocorreu um erro durante a realização do formulário e este foi finalizado.')
                 }
-                // console.log("answers: " + answers[0])
-            }
-            for (const i of answers) {
-                console.log("ultimo answers: " + answers[i])
             }
             return answers
         }

@@ -90,7 +90,7 @@ client.login(process.env.BOT_TOKEN)
                   message.channel.send("**Link para leitura:** " + palavra.linkAcessoObra);
                   message.channel.send("**Faixa etária:** " + palavra.faixaEtariaObra);
                   message.channel.send("**Status:** " + palavra.statusObra);
-                  message.channel.send("**Gêneros:** " + palavra.generoObra[0] + ", " + palavra.generoObra[1] + ", " + palavra.generoObra[2] + ", " + palavra.generoObra[3] + " e " + palavra.generoObra[4]);
+                  message.channel.send("**Gêneros:** " + palavra.generoObra[0]);
                   message.channel.send("**Sinopse:** " + palavra.sinopseObra);
                   
               } else {

@@ -12,3 +12,5 @@ const NoteSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Note', NoteSchema); 
+
+// Sem vínculo com nossas tasks. Lembrar de apagar depois.

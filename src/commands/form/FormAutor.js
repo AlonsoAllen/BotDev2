@@ -116,7 +116,11 @@ module.exports = class extends Command {
         }
         console.log(answers);
       }
-      await Autor.collection.insertMany(answers);
+      const newAutor = await Autor.create({
+        nomeAutor: answers[0].value,
+        generoLiterarioAutor: answers[1].value,
+        linkRedeSocialAutor: answers[2].value
+    });
       return answers;
     }
   };

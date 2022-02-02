@@ -5,7 +5,7 @@ const questions = require('../../util/FormCadastroLivro')
 const { once } = require('events')
 const { MessageEmbed, MessageActionRow, MessageSelectMenu, Message } = require('discord.js')
 
-const LivroSchema = require('../../schemas/LivroSchema')
+const Obra = require('../../schemas/ObraSchema')
 
 module.exports = class extends Command {
     constructor(client) {
@@ -17,7 +17,7 @@ module.exports = class extends Command {
 
     run = (interaction) => {
         interaction.reply({ content: 'Formulário iniciado. Responda às perguntas abaixo:', ephemeral: true })
-        console.log("=======================>>> Formulário de Cadastro de Livro iniciado <<<======================")
+        console.log("=======================>>> Formulário de Cadastro de Obra iniciado <<<======================")
 
         createForm()
             .then(answers => {
@@ -91,9 +91,19 @@ module.exports = class extends Command {
                     else throw ('Ocorreu um erro durante a realização do formulário e este foi finalizado.')
                 }
                 console.log(answers)
-            }
-            return answers
-                 
+            }            
+            const newObra = await Obra.create({
+                nomeObra: answers[0].value,
+                autorObra: answers[1].value,
+                generoTextualObra: answers[2].value,                
+                linkAcessoObra: answers[3].value,
+                faixaEtariaObra: answers[4].value,               
+                statusObra: answers[5].value,
+                generoObra: answers[6].value,
+                sinopseObra: answers[7].value,
+            });
+
+            return answers                  
         }
     }
 }

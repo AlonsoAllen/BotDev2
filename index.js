@@ -4,6 +4,7 @@ const Client = require("./src/structures/Client");
 const User = require("./src/schemas/UserSchemas");
 const Note = require("./src/schemas/NoteSchema");
 const Obra = require("./src/schemas/ObraSchema");
+const Autor = require("./src/schemas/AutorSchema")
 
 const client = new Client({
   intents: [
@@ -102,7 +103,78 @@ client.login(process.env.BOT_TOKEN)
               message.channel.send("Não encontrado");
           }
       }
+      // =================================== DELETAR OBRAS DE AUTOR ========================================
+  } else if (message.content.toLowerCase().startsWith("?deleteobrasautor")) { //pesquisa no schema Obra
+
+    const args = message.content.split(" ");
+    console.log(args)
+    console.log(args.length)
+    if (args.length === 1) {
+        const argumento = await Autor.find({ discordId: message.author.id});
+        let description = "";
+        for (const i in argumento) {
+            description += `${parseInt(i) + 1}) ${argumento[i].autorObra}\n`
+        }
+        message.channel.send(description);
+    } else {
+        const arg = args[1];
+        console.log(arg);
+
+        try {
+            const palavra = await Obra.deleteOne({'autorObra': arg }); /*, function (err, obra) {
+                if (err) return handleError(err);
+                // Prints "Space Ghost is a talk show host".*/
+                //console.log(obra.nome_obra, obra.discordId); 
+            //({ discordId: message.author.id});  //nao funciona mesmo igual ao de cima... ver se é pelo tipo da variavel 
+            console.log(palavra)
+
+            if (palavra) {
+                message.channel.send("Obras do autor foi excluída")
+            } else {
+                message.channel.send("Não encontrado o valor informado.");
+            }
+
+        } catch (err) {
+            console.log(err);
+            message.channel.send("Não encontrado");
+        }
+    }
+    // =================================== DELETAR OBRAS DE AUTOR ========================================
+} else if (message.content.toLowerCase().startsWith("?deleteautor")) { //pesquisa no schema Obra
+
+  const args = message.content.split(" ");
+  console.log(args)
+  console.log(args.length)
+  if (args.length === 1) {
+      const argumento = await Autor.find({ discordId: message.author.id});
+      let description = "";
+      for (const i in argumento) {
+          description += `${parseInt(i) + 1}) ${argumento[i].autorObra}\n`
+      }
+      message.channel.send(description);
+  } else {
+      const arg = args[1];
+      console.log(arg);
+
+      try {
+          const palavra = await Autor.deleteOne({'autorObra': arg }); /*, function (err, obra) {
+              if (err) return handleError(err);
+              // Prints "Space Ghost is a talk show host".*/
+              //console.log(obra.nome_obra, obra.discordId); 
+          //({ discordId: message.author.id});  //nao funciona mesmo igual ao de cima... ver se é pelo tipo da variavel 
+          console.log(palavra)
+
+          if (palavra) {
+              message.channel.send("Autor Excluído")
+          } else {
+              message.channel.send("Não encontrado o valor informado.");
+          }
+      } catch (err) {
+          console.log(err);
+          message.channel.send("Não encontrado");
+      }
   }
+}
 })
 
 // ============== INSERÇÃO DE DADOS NO BANCO ====================
@@ -194,6 +266,29 @@ client.on("message", async (message) => {
             message.channel.send("Nota não encontrada");
         }
       }
+  } else if(message.content.toLowerCase().startsWith("?updatenotes")) {
+    //?updatenotes
+    //?updatenotes <<id>>
+    const args = message.content.split(" ");
+    console.log(args)
+    if (args.length === 1){
+        const notes = await Note.findByIdAndUpdate({ userId: message.author.id });
+        //console.log(notes);
+        //message.channel.send(notes[0].description);
+        let description = '';
+        for (const i in notes){
+            description += `${parseInt(i) + 1} ${notes[i].description}\n`;
+        }
+        message.channel.send(description);
+    } else {
+      const arg = args[1];
+      const note = await Note.findByIdAndUpdate(arg);
+      if (note){
+          message.channel.send(note.description);
+      } else {
+          message.channel.send("Nota não encontrada");
+      }
+    }
   }
 });
 

@@ -10,7 +10,7 @@ const Obra = require('../../schemas/ObraSchema')
 module.exports = class extends Command {
     constructor(client) {
         super(client, {
-            name: 'form_livro',
+            name: 'formulario_cadastro_livro',
             descriptions: 'Realiza um formulário de cadastro de livro no Discord'
         })
     }

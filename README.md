@@ -16,14 +16,14 @@ Quando fechada uma sprint deve-se efetuar o merge de todas as branchs criadas pa
 # Comandos criados até o momento
 
 ## Comandos Básicos
-!obranova = Adiciona uma nova obra com valores default ao banco de dados;
-?obrasautor = Pesquisa pelas obras baseado no autor do livro;
-** Exemplo: ?obrasautor @nome_do_usuario
-?pesquisar_obras = Trás como resultado todas as obras no banco de dados;
-?deleteobrasautor = Deleta todas as obras do autor informado;
-** Exemplo: ?deleteobrasautor @nome_do_usuario
-?deleteautor = Deleta o autor em si. Não afeta as obras.
+* !obranova = Adiciona uma nova obra com valores default ao banco de dados;
+* ?obrasautor = Pesquisa pelas obras baseado no autor do livro;
+* ** Exemplo: ?obrasautor @nome_do_usuario
+* ?pesquisar_obras = Trás como resultado todas as obras no banco de dados;
+* ?deleteobrasautor = Deleta todas as obras do autor informado;
+* ** Exemplo: ?deleteobrasautor @nome_do_usuario
+* ?deleteautor = Deleta o autor em si. Não afeta as obras.
 
 ## Slash Commands
-/formulario_cadastro_autor = Cadastra um novo autor no banco;
-/formulario_cadastro_livro = Cadastra um novo livro no banco;
+* /formulario_cadastro_autor = Cadastra um novo autor no banco;
+* /formulario_cadastro_livro = Cadastra um novo livro no banco;

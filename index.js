@@ -103,8 +103,8 @@ client.on("messageCreate", async (message) => {
       }
     }
   }
-  // =================================== PESQUISA E ATUALIZA OBRA DE AUTOR ========================================
-  if (message.content.toLowerCase().startsWith("?pesquisaobrasautor")) {
+  // =================================== PESQUISA TODAS AS OBRAS ===============================================
+  if (message.content.toLowerCase().startsWith("?pesquisar_obras")) {
     //pesquisa no schema Obra
     const args = message.content.split(" ");
     console.log(args);
@@ -113,34 +113,12 @@ client.on("messageCreate", async (message) => {
       const argumento = await Obra.find({ discordId: message.author.id });
       let description = "";
       for (const i in argumento) {
-        description += `${parseInt(i) + 1}) ${argumento[i].autorObra}\n`;
+        description += `${parseInt(i) + 1}) ${argumento[i].nomeObra} - ${argumento[i].autorObra}\n`;
       }
       message.channel.send(description);
     } else {
       const arg = args[1];
       console.log(arg);
-
-      try {
-        const palavra = await Obra.findOne({
-          autorObra: arg,
-        }); /*, function (err, obra) {
-                if (err) return handleError(err);
-                // Prints "Space Ghost is a talk show host".*/
-        //console.log(obra.nome_obra, obra.discordId);
-        //({ discordId: message.author.id});  //nao funciona mesmo igual ao de cima... ver se é pelo tipo da variavel
-        console.log(palavra);
-
-        if (palavra) {  
-            message.channel.send("**Nome da obra:** " + palavra.nomeObra);
-            message.channel.send("**Link para leitura:** " + palavra.linkAcessoObra);
-            message.channel.send("**Sinopse:** " + palavra.sinopseObra);
-        } else {
-          message.channel.send("Não encontrado o valor informado.");
-        }
-      } catch (err) {
-        console.log(err);
-        message.channel.send("Não encontrado");
-      }
     }
   }
   // =================================== DELETAR OBRAS DE AUTOR ========================================
@@ -161,7 +139,7 @@ client.on("messageCreate", async (message) => {
       console.log(arg);
 
       try {
-        const palavra = await Obra.deleteOne({
+        const palavra = await Obra.deleteMany({
           autorObra: arg,
         }); /*, function (err, obra) {
                 if (err) return handleError(err);

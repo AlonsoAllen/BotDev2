@@ -278,7 +278,7 @@ client.on("message", async (message) => {
 
       function rndmessage(message) {
         const recomendacao_livros = [
-          description
+          'livro 1', 'livro 2', 'livro 3', 'livro 4', 'livro 5', 'livro 6', 'livro 7', 'livro 8'
         ];
         var rnd = Math.floor(Math.random() * recomendacao_livros.length);
 

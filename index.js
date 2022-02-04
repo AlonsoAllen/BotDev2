@@ -59,6 +59,170 @@ client.on("messageCreate", async (message) => {
       message.channel.send("Falha ao tentar salvar.");
     }
   }
+  // ========================================= PESQUISA POR ATRIBUTO ============================================
+  if (message.content.toLowerCase().startsWith("?atributo")) {
+    var contado = 0;
+    const args = message.content.split(" ");
+
+    if (args.length === 1) {
+      const object = await Obra.find({ discordId: message.author.id });
+      let description = "";
+      for (const i in object) {
+        contado += 1;
+        if (object.length === contado) {
+          break;
+        } else {
+          description += `**Nome da obra:** ${object[i].nomeObra}\n`
+          description += `**Autor:** ${object[i].autorObra}\n`
+          description += `**Tipo de obra:** ${object[i].generoTextualObra}\n`
+          description += `**Link para leitura:** ${object[i].linkAcessoObra}\n`
+          description += `**Faixa etária:** ${object[i].faixaEtariaObra}\n`
+          description += `**Status:** ${object[i].statusObra}\n`
+          description += `**Gêneros:** ${object[i].generoObra[0]}\n`
+          description += `**Sinopse:** ${object[i].sinopseObra}\n`
+          description += `===============================\n`
+          message.channel.send(description);
+        }
+      }
+    } else {
+      const arg = message.content.indexOf(" ");
+      const valores = message.content.slice(arg + message.content.indexOf(args[1]));
+
+      const atributo = args[1];
+      const valor = args[2];
+
+      try {
+        const array = ['nomeObra', 'generoTextualObra', 'linkObra', 'faixaObra', 'statusObra', 'generoObra']
+        for (const i in array) {
+          let result = array[i].toLowerCase().includes(atributo.toLowerCase())
+          if (result) {
+            let atri = atributo.toLowerCase()
+            switch (atri) {
+              case 'nomeobra':
+                object = await Obra.find({ 'nomeObra': valores });
+                for (const i in object) {
+                  message.channel.send("**Nome da obra:** " + object[i].nomeObra)
+                  message.channel.send("**Autor:** " + object[i].autorObra);
+                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
+                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
+                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
+                  message.channel.send("**Status:** " + object[i].statusObra);
+                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
+                  message.channel.send("**Sinopse:** " + object[i].sinopseObra);
+                  contado += 1;
+                  if (object.length === contado) {
+                    break;
+                  } else if (object.length > 1) {
+                    message.channel.send("===============================");
+                  }
+                }
+                break;
+              case 'generotextual':
+                object = await Obra.find({ 'generoTextualObra': valor });
+                for (const i in object) {
+                  message.channel.send("**Nome da obra:** " + object[i].nomeObra)
+                  message.channel.send("**Autor:** " + object[i].autorObra);
+                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
+                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
+                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
+                  message.channel.send("**Status:** " + object[i].statusObra);
+                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
+                  message.channel.send("**Sinopse:** " + object[i].sinopseObra);
+                  contado += 1;
+                  if (object.length === contado) {
+                    break;
+                  } else if (object.length > 1) {
+                    message.channel.send("===============================");
+                  }
+                }
+                break;
+              case 'linkobra':
+                object = await Obra.find({ 'linkAcessoObra': valor });
+                for (const i in object) {
+                  message.channel.send("**Nome da obra:** " + object[i].nomeObra)
+                  message.channel.send("**Autor:** " + object[i].autorObra);
+                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
+                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
+                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
+                  message.channel.send("**Status:** " + object[i].statusObra);
+                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
+                  message.channel.send("**Sinopse:** " + object[i].sinopseObra);
+                  contado += 1;
+                  if (object.length === contado) {
+                    break;
+                  } else if (object.length > 1) {
+                    message.channel.send("===============================");
+                  }
+                }
+                break;
+              case 'faixaobra':
+                object = await Obra.find({ 'faixaEtariaObra': valor });
+                for (const i in object) {
+                  message.channel.send("**Nome da obra:** " + object[i].nomeObra)
+                  message.channel.send("**Autor:** " + object[i].autorObra);
+                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
+                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
+                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
+                  message.channel.send("**Status:** " + object[i].statusObra);
+                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
+                  message.channel.send("**Sinopse:** " + object[i].sinopseObra);
+                  contado += 1;
+                  if (object.length === contado) {
+                    break;
+                  } else if (object.length > 1) {
+                    message.channel.send("===============================");
+                  }
+                }
+                break;
+              case 'statusobra':
+                object = await Obra.find({ 'statusObra': valor });
+                for (const i in object) {
+                  message.channel.send("**Nome da obra:** " + object[i].nomeObra)
+                  message.channel.send("**Autor:** " + object[i].autorObra);
+                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
+                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
+                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
+                  message.channel.send("**Status:** " + object[i].statusObra);
+                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
+                  message.channel.send("**Sinopse:** " + object[i].sinopseObra);
+                  contado += 1;
+                  if (object.length === contado) {
+                    break;
+                  } else if (object.length > 1) {
+                    message.channel.send("===============================");
+                  }
+                }
+                break;
+              case 'generoobra':
+                object = await Obra.find({ 'generoObra': valor });
+                for (const i in object) {
+                  message.channel.send("**Nome da obra:** " + object[i].nomeObra)
+                  message.channel.send("**Autor:** " + object[i].autorObra);
+                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
+                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
+                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
+                  message.channel.send("**Status:** " + object[i].statusObra);
+                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
+                  message.channel.send("**Sinopse:** " + object[i].sinopseObra);
+                  contado += 1;
+                  if (object.length === contado) {
+                    break;
+                  } else if (object.length > 1) {
+                    message.channel.send("===============================");
+                  }
+                }
+                break;
+              default:
+                message.channel.send("Não encontrado, verificado nome do atributo correto!");
+            }
+          }
+        }
+      } catch (err) {
+        console.log(err);
+        message.channel.send("Não encontrado");
+      }
+    }
+  }
   // ========================================= PESQUISA AS OBRAS DO AUTOR ============================================
   if (message.content.toLowerCase().startsWith("?obrasautor")) {
     //pesquisa no schema Obra

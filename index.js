@@ -17,13 +17,14 @@ const client = new Client({
     "GUILD_PRESENCES",
   ],
 });
-
+/*
 client.on("guildMemberAdd", async (member) => {
   const newMember = await User.create({
     username: message.author.username,
     discordId: message.author.id,
   });
 });
+*/
 
 client.login(process.env.BOT_TOKEN);
 
@@ -252,8 +253,12 @@ client.on("messageCreate", async (message) => {
         if (palavra) {
           message.channel.send("**Nome da obra:** " + palavra.nomeObra);
           message.channel.send("**Autor:** " + palavra.autorObra);
-          message.channel.send("**Tipo de obra:** " + palavra.generoTextualObra);
-          message.channel.send("**Link para leitura:** " + palavra.linkAcessoObra);
+          message.channel.send(
+            "**Tipo de obra:** " + palavra.generoTextualObra
+          );
+          message.channel.send(
+            "**Link para leitura:** " + palavra.linkAcessoObra
+          );
           message.channel.send("**Faixa etária:** " + palavra.faixaEtariaObra);
           message.channel.send("**Status:** " + palavra.statusObra);
           message.channel.send("**Gêneros:** " + palavra.generoObra[0]);
@@ -267,8 +272,8 @@ client.on("messageCreate", async (message) => {
       }
     }
   }
-  // =================================== PESQUISA E ATUALIZA OBRA DE AUTOR ========================================
-  if (message.content.toLowerCase().startsWith("?pesquisaobrasautor")) {
+  // =================================== PESQUISA TODAS AS OBRAS ===============================================
+  if (message.content.toLowerCase().startsWith("?pesquisar_obras")) {
     //pesquisa no schema Obra
     const args = message.content.split(" ");
     console.log(args);
@@ -277,34 +282,14 @@ client.on("messageCreate", async (message) => {
       const argumento = await Obra.find({ discordId: message.author.id });
       let description = "";
       for (const i in argumento) {
-        description += `${parseInt(i) + 1}) ${argumento[i].autorObra}\n`;
+        description += `${parseInt(i) + 1}) ${argumento[i].nomeObra} - ${
+          argumento[i].autorObra
+        }\n`;
       }
       message.channel.send(description);
     } else {
       const arg = args[1];
       console.log(arg);
-
-      try {
-        const palavra = await Obra.findOne({
-          autorObra: arg,
-        }); /*, function (err, obra) {
-                if (err) return handleError(err);
-                // Prints "Space Ghost is a talk show host".*/
-        //console.log(obra.nome_obra, obra.discordId);
-        //({ discordId: message.author.id});  //nao funciona mesmo igual ao de cima... ver se é pelo tipo da variavel
-        console.log(palavra);
-
-        if (palavra) {
-          message.channel.send("**Nome da obra:** " + palavra.nomeObra);
-          message.channel.send("**Link para leitura:** " + palavra.linkAcessoObra);
-          message.channel.send("**Sinopse:** " + palavra.sinopseObra);
-        } else {
-          message.channel.send("Não encontrado o valor informado.");
-        }
-      } catch (err) {
-        console.log(err);
-        message.channel.send("Não encontrado");
-      }
     }
   }
   // =================================== DELETAR OBRAS DE AUTOR ========================================
@@ -314,7 +299,9 @@ client.on("messageCreate", async (message) => {
     console.log(args);
     console.log(args.length);
     if (args.length === 1) {
-      const argumento = await Autor.nomeObra.find({ discordId: message.author.id });
+      const argumento = await Autor.nomeObra.find({
+        discordId: message.author.id,
+      });
       let description = "";
       for (const i in argumento) {
         description += `${parseInt(i) + 1}) ${argumento[i].autorObra}\n`;
@@ -325,7 +312,7 @@ client.on("messageCreate", async (message) => {
       console.log(arg);
 
       try {
-        const palavra = await Obra.deleteOne({
+        const palavra = await Obra.deleteMany({
           autorObra: arg,
         }); /*, function (err, obra) {
                 if (err) return handleError(err);
@@ -441,6 +428,29 @@ client.on("message", async (message) => {
       }
     }
   }
+  // ======================================= RECOMENDAÇÃO DE LIVRO =========================
+  if (message.content.toLowerCase().startsWith("?recomendacao")) {
+    const args = message.content.split(" ");
+    if (args.length === 1) {
+      const argumento = await Obra.find({ discordId: message.author.id});
+      console.log(argumento);
+      let description = "";
+      for (const i in argumento) {
+        description += `${parseInt(i) + 1} ${argumento[i].nomeObra}\n`;
+      }
+      rndmessage(message);
+
+      function rndmessage(message) {
+        const recomendacao_livros = [
+          'livro 1', 'livro 2', 'livro 3', 'livro 4', 'livro 5', 'livro 6', 'livro 7', 'livro 8'
+        ];
+        var rnd = Math.floor(Math.random() * recomendacao_livros.length);
+
+        message.channel.send(recomendacao_livros[rnd]);
+      }
+    }
+  }
+
   /* =============================== CRIAÇÃO DE NOTA NOVA NO BANCO DE DADOS =========================== */
   if (message.content.toLowerCase().startsWith("?createnote")) {
     const index = message.content.indexOf(" ");

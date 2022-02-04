@@ -17,13 +17,14 @@ const client = new Client({
     "GUILD_PRESENCES",
   ],
 });
-
+/*
 client.on("guildMemberAdd", async (member) => {
   const newMember = await User.create({
     username: message.author.username,
     discordId: message.author.id,
   });
 });
+*/
 
 client.login(process.env.BOT_TOKEN);
 
@@ -88,8 +89,12 @@ client.on("messageCreate", async (message) => {
         if (palavra) {
           message.channel.send("**Nome da obra:** " + palavra.nomeObra);
           message.channel.send("**Autor:** " + palavra.autorObra);
-          message.channel.send("**Tipo de obra:** " + palavra.generoTextualObra);
-          message.channel.send("**Link para leitura:** " + palavra.linkAcessoObra);
+          message.channel.send(
+            "**Tipo de obra:** " + palavra.generoTextualObra
+          );
+          message.channel.send(
+            "**Link para leitura:** " + palavra.linkAcessoObra
+          );
           message.channel.send("**Faixa etária:** " + palavra.faixaEtariaObra);
           message.channel.send("**Status:** " + palavra.statusObra);
           message.channel.send("**Gêneros:** " + palavra.generoObra[0]);
@@ -113,7 +118,9 @@ client.on("messageCreate", async (message) => {
       const argumento = await Obra.find({ discordId: message.author.id });
       let description = "";
       for (const i in argumento) {
-        description += `${parseInt(i) + 1}) ${argumento[i].nomeObra} - ${argumento[i].autorObra}\n`;
+        description += `${parseInt(i) + 1}) ${argumento[i].nomeObra} - ${
+          argumento[i].autorObra
+        }\n`;
       }
       message.channel.send(description);
     } else {
@@ -128,7 +135,9 @@ client.on("messageCreate", async (message) => {
     console.log(args);
     console.log(args.length);
     if (args.length === 1) {
-      const argumento = await Autor.nomeObra.find({ discordId: message.author.id });
+      const argumento = await Autor.nomeObra.find({
+        discordId: message.author.id,
+      });
       let description = "";
       for (const i in argumento) {
         description += `${parseInt(i) + 1}) ${argumento[i].autorObra}\n`;
@@ -255,6 +264,29 @@ client.on("message", async (message) => {
       }
     }
   }
+  // ======================================= RECOMENDAÇÃO DE LIVRO =========================
+  if (message.content.toLowerCase().startsWith("?recomendacao")) {
+    const args = message.content.split(" ");
+    if (args.length === 1) {
+      const argumento = await Obra.find({ discordId: message.author.id});
+      console.log(argumento);
+      let description = "";
+      for (const i in argumento) {
+        description += `${parseInt(i) + 1} ${argumento[i].nomeObra}\n`;
+      }
+      rndmessage(message);
+
+      function rndmessage(message) {
+        const recomendacao_livros = [
+          description
+        ];
+        var rnd = Math.floor(Math.random() * recomendacao_livros.length);
+
+        message.channel.send(recomendacao_livros[rnd]);
+      }
+    }
+  }
+
   /* =============================== CRIAÇÃO DE NOTA NOVA NO BANCO DE DADOS =========================== */
   if (message.content.toLowerCase().startsWith("?createnote")) {
     const index = message.content.indexOf(" ");

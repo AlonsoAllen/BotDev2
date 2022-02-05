@@ -6,6 +6,8 @@ const Note = require("./src/schemas/NoteSchema");
 const Obra = require("./src/schemas/ObraSchema");
 const Autor = require("./src/schemas/AutorSchema");
 
+const { MessageAttachment, MessageEmbed } = require("discord.js");
+
 const client = new Client({
   intents: [
     "GUILDS",
@@ -53,7 +55,19 @@ client.on("messageCreate", async (message) => {
         generoObra: descri,
         sinopseObra: descri,
       });
+
+      const exampleEmbed = {
+        color: 0x0099ff,
+        title: "Anotações",
+        fields: [
+          {
+            name: "Nome da Obra",
+            value: descri,
+          },
+        ],
+      };
       message.channel.send("Salvo com sucesso.");
+      message.channel.send({ embeds: [exampleEmbed] });
     } catch (err) {
       console.log(err);
       message.channel.send("Falha ao tentar salvar.");
@@ -61,151 +75,220 @@ client.on("messageCreate", async (message) => {
   }
   // ========================================= PESQUISA POR ATRIBUTO ============================================
   if (message.content.toLowerCase().startsWith("?atributo")) {
-    var contado = 0;
+    var contador = 0;
     const args = message.content.split(" ");
 
     if (args.length === 1) {
       const object = await Obra.find({ discordId: message.author.id });
       let description = "";
       for (const i in object) {
-        contado += 1;
-        if (object.length === contado) {
+        contador += 1;
+        if (object.length === contador) {
           break;
         } else {
-          description += `**Nome da obra:** ${object[i].nomeObra}\n`
-          description += `**Autor:** ${object[i].autorObra}\n`
-          description += `**Tipo de obra:** ${object[i].generoTextualObra}\n`
-          description += `**Link para leitura:** ${object[i].linkAcessoObra}\n`
-          description += `**Faixa etária:** ${object[i].faixaEtariaObra}\n`
-          description += `**Status:** ${object[i].statusObra}\n`
-          description += `**Gêneros:** ${object[i].generoObra[0]}\n`
-          description += `**Sinopse:** ${object[i].sinopseObra}\n`
-          description += `===============================\n`
+          description += `**Nome da obra:** ${object[i].nomeObra}\n`;
+          description += `**Autor:** ${object[i].autorObra}\n`;
+          description += `**Tipo de obra:** ${object[i].generoTextualObra}\n`;
+          description += `**Link para leitura:** ${object[i].linkAcessoObra}\n`;
+          description += `**Faixa etária:** ${object[i].faixaEtariaObra}\n`;
+          description += `**Status:** ${object[i].statusObra}\n`;
+          description += `**Gêneros:** ${object[i].generoObra[0]}\n`;
+          description += `**Sinopse:** ${object[i].sinopseObra}\n`;
+          description += `===============================\n`;
           message.channel.send(description);
         }
       }
     } else {
       const arg = message.content.indexOf(" ");
-      const valores = message.content.slice(arg + message.content.indexOf(args[1]));
+      const valores = message.content.slice(
+        arg + message.content.indexOf(args[1])
+      );
 
       const atributo = args[1];
       const valor = args[2];
 
       try {
-        const array = ['nomeObra', 'generoTextualObra', 'linkObra', 'faixaObra', 'statusObra', 'generoObra']
+        const array = [
+          "nomeObra",
+          "generoTextualObra",
+          "linkObra",
+          "faixaObra",
+          "statusObra",
+          "generoObra",
+        ];
         for (const i in array) {
-          let result = array[i].toLowerCase().includes(atributo.toLowerCase())
+          let result = array[i].toLowerCase().includes(atributo.toLowerCase());
           if (result) {
-            let atri = atributo.toLowerCase()
+            let atri = atributo.toLowerCase();
             switch (atri) {
-              case 'nomeobra':
-                object = await Obra.find({ 'nomeObra': valores });
+              case "nomeobra":
+                object = await Obra.find({ nomeObra: valores });
                 for (const i in object) {
-                  message.channel.send("**Nome da obra:** " + object[i].nomeObra)
+                  message.channel.send(
+                    "**Nome da obra:** " + object[i].nomeObra
+                  );
                   message.channel.send("**Autor:** " + object[i].autorObra);
-                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
-                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
-                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
+                  message.channel.send(
+                    "**Tipo de obra:** " + object[i].generoTextualObra
+                  );
+                  message.channel.send(
+                    "**Link para leitura:** " + object[i].linkAcessoObra
+                  );
+                  message.channel.send(
+                    "**Faixa etária:** " + object[i].faixaEtariaObra
+                  );
                   message.channel.send("**Status:** " + object[i].statusObra);
-                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
+                  message.channel.send(
+                    "**Gêneros:** " + object[i].generoObra[0]
+                  );
                   message.channel.send("**Sinopse:** " + object[i].sinopseObra);
-                  contado += 1;
-                  if (object.length === contado) {
+                  contador += 1;
+                  if (object.length === contador) {
                     break;
                   } else if (object.length > 1) {
                     message.channel.send("===============================");
                   }
                 }
                 break;
-              case 'generotextual':
-                object = await Obra.find({ 'generoTextualObra': valor });
+              case "generotextual":
+                object = await Obra.find({ generoTextualObra: valor });
                 for (const i in object) {
-                  message.channel.send("**Nome da obra:** " + object[i].nomeObra)
+                  message.channel.send(
+                    "**Nome da obra:** " + object[i].nomeObra
+                  );
                   message.channel.send("**Autor:** " + object[i].autorObra);
-                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
-                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
-                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
+                  message.channel.send(
+                    "**Tipo de obra:** " + object[i].generoTextualObra
+                  );
+                  message.channel.send(
+                    "**Link para leitura:** " + object[i].linkAcessoObra
+                  );
+                  message.channel.send(
+                    "**Faixa etária:** " + object[i].faixaEtariaObra
+                  );
                   message.channel.send("**Status:** " + object[i].statusObra);
-                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
+                  message.channel.send(
+                    "**Gêneros:** " + object[i].generoObra[0]
+                  );
                   message.channel.send("**Sinopse:** " + object[i].sinopseObra);
-                  contado += 1;
-                  if (object.length === contado) {
+                  contador += 1;
+                  if (object.length === contador) {
                     break;
                   } else if (object.length > 1) {
                     message.channel.send("===============================");
                   }
                 }
                 break;
-              case 'linkobra':
-                object = await Obra.find({ 'linkAcessoObra': valor });
+              case "linkobra":
+                object = await Obra.find({ linkAcessoObra: valor });
                 for (const i in object) {
-                  message.channel.send("**Nome da obra:** " + object[i].nomeObra)
+                  message.channel.send(
+                    "**Nome da obra:** " + object[i].nomeObra
+                  );
                   message.channel.send("**Autor:** " + object[i].autorObra);
-                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
-                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
-                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
+                  message.channel.send(
+                    "**Tipo de obra:** " + object[i].generoTextualObra
+                  );
+                  message.channel.send(
+                    "**Link para leitura:** " + object[i].linkAcessoObra
+                  );
+                  message.channel.send(
+                    "**Faixa etária:** " + object[i].faixaEtariaObra
+                  );
                   message.channel.send("**Status:** " + object[i].statusObra);
-                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
+                  message.channel.send(
+                    "**Gêneros:** " + object[i].generoObra[0]
+                  );
                   message.channel.send("**Sinopse:** " + object[i].sinopseObra);
-                  contado += 1;
-                  if (object.length === contado) {
+                  contador += 1;
+                  if (object.length === contador) {
                     break;
                   } else if (object.length > 1) {
                     message.channel.send("===============================");
                   }
                 }
                 break;
-              case 'faixaobra':
-                object = await Obra.find({ 'faixaEtariaObra': valor });
+              case "faixaobra":
+                object = await Obra.find({ faixaEtariaObra: valor });
                 for (const i in object) {
-                  message.channel.send("**Nome da obra:** " + object[i].nomeObra)
+                  message.channel.send(
+                    "**Nome da obra:** " + object[i].nomeObra
+                  );
                   message.channel.send("**Autor:** " + object[i].autorObra);
-                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
-                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
-                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
+                  message.channel.send(
+                    "**Tipo de obra:** " + object[i].generoTextualObra
+                  );
+                  message.channel.send(
+                    "**Link para leitura:** " + object[i].linkAcessoObra
+                  );
+                  message.channel.send(
+                    "**Faixa etária:** " + object[i].faixaEtariaObra
+                  );
                   message.channel.send("**Status:** " + object[i].statusObra);
-                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
+                  message.channel.send(
+                    "**Gêneros:** " + object[i].generoObra[0]
+                  );
                   message.channel.send("**Sinopse:** " + object[i].sinopseObra);
-                  contado += 1;
-                  if (object.length === contado) {
+                  contador += 1;
+                  if (object.length === contador) {
                     break;
                   } else if (object.length > 1) {
                     message.channel.send("===============================");
                   }
                 }
                 break;
-              case 'statusobra':
-                object = await Obra.find({ 'statusObra': valor });
+              case "statusobra":
+                object = await Obra.find({ statusObra: valor });
                 for (const i in object) {
-                  message.channel.send("**Nome da obra:** " + object[i].nomeObra)
+                  message.channel.send(
+                    "**Nome da obra:** " + object[i].nomeObra
+                  );
                   message.channel.send("**Autor:** " + object[i].autorObra);
-                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
-                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
-                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
+                  message.channel.send(
+                    "**Tipo de obra:** " + object[i].generoTextualObra
+                  );
+                  message.channel.send(
+                    "**Link para leitura:** " + object[i].linkAcessoObra
+                  );
+                  message.channel.send(
+                    "**Faixa etária:** " + object[i].faixaEtariaObra
+                  );
                   message.channel.send("**Status:** " + object[i].statusObra);
-                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
+                  message.channel.send(
+                    "**Gêneros:** " + object[i].generoObra[0]
+                  );
                   message.channel.send("**Sinopse:** " + object[i].sinopseObra);
-                  contado += 1;
-                  if (object.length === contado) {
+                  contador += 1;
+                  if (object.length === contador) {
                     break;
                   } else if (object.length > 1) {
                     message.channel.send("===============================");
                   }
                 }
                 break;
-              case 'generoobra':
-                object = await Obra.find({ 'generoObra': valor });
+              case "generoobra":
+                object = await Obra.find({ generoObra: valor });
                 for (const i in object) {
-                  message.channel.send("**Nome da obra:** " + object[i].nomeObra)
+                  message.channel.send(
+                    "**Nome da obra:** " + object[i].nomeObra
+                  );
                   message.channel.send("**Autor:** " + object[i].autorObra);
-                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
-                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
-                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
+                  message.channel.send(
+                    "**Tipo de obra:** " + object[i].generoTextualObra
+                  );
+                  message.channel.send(
+                    "**Link para leitura:** " + object[i].linkAcessoObra
+                  );
+                  message.channel.send(
+                    "**Faixa etária:** " + object[i].faixaEtariaObra
+                  );
                   message.channel.send("**Status:** " + object[i].statusObra);
-                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
+                  message.channel.send(
+                    "**Gêneros:** " + object[i].generoObra[0]
+                  );
                   message.channel.send("**Sinopse:** " + object[i].sinopseObra);
-                  contado += 1;
-                  if (object.length === contado) {
+                  contador += 1;
+                  if (object.length === contador) {
                     break;
                   } else if (object.length > 1) {
                     message.channel.send("===============================");
@@ -213,7 +296,9 @@ client.on("messageCreate", async (message) => {
                 }
                 break;
               default:
-                message.channel.send("Não encontrado, verificado nome do atributo correto!");
+                message.channel.send(
+                  "Não encontrado, verificado nome do atributo correto!"
+                );
             }
           }
         }
@@ -370,6 +455,29 @@ client.on("messageCreate", async (message) => {
       }
     }
   }
+  // ========================================= UPDATE DE ATRIBUTO ============================================
+  if (message.content.toLowerCase().startsWith("?update_atributo_nomeobra")) {
+    const args = message.content.trim().split(/ +/g);
+    const command = args.shift().toLowerCase();
+
+    let nota = args[0];
+    let nota2 = args[1];
+
+    message.channel.send(`Obra ${nota} atualizada para obra ${nota2}`);
+
+    object = await Obra.updateMany({ nomeObra: nota }, { nomeObra: nota2 });
+  }
+  if (message.content.toLowerCase().startsWith("?update_atributo_autorobra")) {
+    const args = message.content.trim().split(/ +/);
+    const command = args.shift().toLowerCase();
+
+    let nota = args[0];
+    let nota2 = args[1];
+
+    message.channel.send(`Autor ${nota} atualizado para autor ${nota2}`);
+
+    object = await Obra.updateMany({ autorObra: nota }, { autorObra: nota2 });
+  }
 });
 
 /* Códigos de Teste, utilizando o schema User e Notes para explorar funcionalidades */
@@ -431,23 +539,37 @@ client.on("message", async (message) => {
   // ======================================= RECOMENDAÇÃO DE LIVRO =========================
   if (message.content.toLowerCase().startsWith("?recomendacao")) {
     const args = message.content.split(" ");
+
+    var random = Math.floor(Math.random() * 5);
+
     if (args.length === 1) {
-      const argumento = await Obra.find({ discordId: message.author.id});
-      console.log(argumento);
-      let description = "";
-      for (const i in argumento) {
-        description += `${parseInt(i) + 1} ${argumento[i].nomeObra}\n`;
-      }
-      rndmessage(message);
-
-      function rndmessage(message) {
-        const recomendacao_livros = [
-          'livro 1', 'livro 2', 'livro 3', 'livro 4', 'livro 5', 'livro 6', 'livro 7', 'livro 8'
-        ];
-        var rnd = Math.floor(Math.random() * recomendacao_livros.length);
-
-        message.channel.send(recomendacao_livros[rnd]);
-      }
+      Obra.findOne()
+        .skip(random)
+        .exec(function (erro, result) {
+          const Embed = new MessageEmbed()
+            .setColor(0x0099ff)
+            .setTitle(result.nomeObra)
+            .setDescription(result.sinopseObra)
+            .setThumbnail(
+              "https://ifrs.edu.br/restinga/wp-content/uploads/sites/5/2018/05/marca-ifrs-vertical.jpg"
+            )
+            .addFields(
+              {
+                name: "Gênero da Obra",
+                value: result.generoTextualObra
+              },
+              {
+                name: "Status",
+                value: result.statusObra
+              },
+              {
+                name: "Link para acessar a obra",
+                value: result.linkAcessoObra
+              },
+            );
+          message.channel.send({ embeds: [Embed] });
+          message.author.send({ embeds: [Embed] });
+        });
     }
   }
 
@@ -471,6 +593,7 @@ client.on("message", async (message) => {
     //?getnotes
     //?getnotes <<id>>
     const args = message.content.split(" ");
+
     console.log(args);
     if (args.length === 1) {
       const notes = await Note.find({ userId: message.author.id });
@@ -478,14 +601,26 @@ client.on("message", async (message) => {
       //message.channel.send(notes[0].description);
       let description = "";
       for (const i in notes) {
-        description += `${parseInt(i) + 1} ${notes[i].description}\n`;
+        description += `${parseInt(i) + 1}) ${notes[i].description}\n`;
       }
-      message.channel.send(description);
+      const exampleEmbed = {
+        color: 0x0099ff,
+        title: "Anotações",
+        fields: [
+          {
+            name: "Descrição da anotação",
+            value: description,
+          },
+        ],
+      };
+      //message.channel.send(description);
+      message.channel.send({ embeds: [exampleEmbed] });
     } else {
       const arg = args[1];
       const note = await Note.findById(arg);
       if (note) {
-        message.channel.send(note.description);
+        //message.channel.send(note.description);
+        message.channel.send({ embeds: [exampleEmbed] });
       } else {
         message.channel.send("Nota não encontrada");
       }
@@ -495,25 +630,47 @@ client.on("message", async (message) => {
   if (message.content.toLowerCase().startsWith("?updatenotes")) {
     //?updatenotes
     //?updatenotes <<id>>
-    const args = message.content.split(" ");
-    console.log(args);
-    if (args.length === 1) {
-      const notes = await Note.find({ userId: message.author.id });
-      //console.log(notes);
-      //message.channel.send(notes[0].description);
-      let description = "";
-      for (const i in notes) {
-        description += `${parseInt(i) + 1} ${notes[i].description}\n`;
-      }
-      message.channel.send(description);
-    } else {
-      const arg = args[1];
-      const note = await Note.findById(arg);
-      if (note) {
-        message.channel.send(note.description);
-      } else {
-        message.channel.send("Nota não encontrada");
-      }
-    }
+    const args = message.content.trim().split(/ +/);
+    const command = args.shift().toLowerCase();
+
+    let nota = args[0];
+    let nota2 = args[1];
+
+    message.channel.send(`Nota ${nota} atualizado para ${nota2}`);
+
+    object = await Note.updateOne(
+      { description: nota },
+      { description: nota2 }
+    );
+  }
+  if (message.content.toLowerCase().startsWith("?help")) {
+    const Embed = new MessageEmbed()
+      .setColor(0x0099ff)
+      .setTitle("Lista de Comandos")
+      .setDescription("Abaixo segue os comandos utilizados pelo BOT.")
+      .setThumbnail(
+        "https://ifrs.edu.br/restinga/wp-content/uploads/sites/5/2018/05/marca-ifrs-vertical.jpg"
+      )
+      .addFields(
+        {
+          name: "Comandos de Criação:",
+          value:
+            "`!obranova`\n" +
+            "`/formulario_cadastro_autor`\n" +
+            "`/formulario_cadastro_livro`\n",
+        },
+        {
+          name: "Comandos de Busca:",
+          value: "`?obrasautor`\n" + "`?pesquisar_obras`\n",
+          inline: true,
+        },
+        {
+          name: "Comandos de Delete:",
+          value: "`?deleteautor`\n" + "`?deleteobrasautor`\n",
+          inline: true,
+        }
+      );
+    message.channel.send({ embeds: [Embed] });
+    message.author.send({ embeds: [Embed] });
   }
 });

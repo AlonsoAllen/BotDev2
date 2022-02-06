@@ -26,7 +26,7 @@ client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
   // =========================================  ADICIONA NOVA OBRA TEMPLATE ============================================
- 
+
   if (message.content.toLowerCase().startsWith("!obranova")) {
     const index = message.content.indexOf(" ");
     const descri = message.content.slice(index + 1);
@@ -49,7 +49,7 @@ client.on("messageCreate", async (message) => {
       });
 
       const exampleEmbed = {
-        color: 'RANDOM',
+        color: "RANDOM",
         title: "Anotações",
         fields: [
           {
@@ -79,42 +79,42 @@ client.on("messageCreate", async (message) => {
           break;
         } else {
           const retornoEmbed = {
-            color: ('RANDOM'),
+            color: "RANDOM",
             title: `Obra: ${object[i].nomeObra}`,
             fields: [
               {
-                name: 'Autor Obra',
+                name: "Autor Obra",
                 value: `${object[i].autorObra}`,
                 inline: true,
               },
               {
-                name: 'Faixa Etária',
+                name: "Faixa Etária",
                 value: `${object[i].faixaEtariaObra}`,
                 inline: true,
               },
               {
-                name: 'Gênero Textual',
+                name: "Gênero Textual",
                 value: `${object[i].generoTextualObra}`,
                 inline: true,
               },
               {
-                name: 'Status Obra',
+                name: "Status Obra",
                 value: `${object[i].statusObra}`,
                 inline: true,
               },
               {
-                name: 'Link Acesso',
+                name: "Link Acesso",
                 value: `${object[i].linkAcessoObra}`,
                 inline: true,
               },
               {
-                name: 'Sinopse',
+                name: "Sinopse",
                 value: `${object[i].sinopseObra}`,
               },
-            ]  
+            ],
           };
           message.channel.send({ embeds: [retornoEmbed] });
-          console.log("Erro!")
+          console.log("Erro!");
         }
       }
     } else {
@@ -144,39 +144,39 @@ client.on("messageCreate", async (message) => {
                 object = await Obra.find({ nomeObra: valores });
                 for (const i in object) {
                   const retornoEmbed = {
-                    color: ('RANDOM'),
+                    color: "RANDOM",
                     title: `Obra: ${object[i].nomeObra}`,
                     fields: [
                       {
-                        name: 'Autor Obra',
+                        name: "Autor Obra",
                         value: `${object[i].autorObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Faixa Etária',
+                        name: "Faixa Etária",
                         value: `${object[i].faixaEtariaObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Gênero Textual',
+                        name: "Gênero Textual",
                         value: `${object[i].generoTextualObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Status Obra',
+                        name: "Status Obra",
                         value: `${object[i].statusObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Link Acesso',
+                        name: "Link Acesso",
                         value: `${object[i].linkAcessoObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Sinopse',
+                        name: "Sinopse",
                         value: `${object[i].sinopseObra}`,
                       },
-                    ]  
+                    ],
                   };
                   message.channel.send({ embeds: [retornoEmbed] });
                   contador += 1;
@@ -191,39 +191,39 @@ client.on("messageCreate", async (message) => {
                 object = await Obra.find({ generoTextualObra: valor });
                 for (const i in object) {
                   const retornoEmbed = {
-                    color: ('RANDOM'),
+                    color: "RANDOM",
                     title: `Obra: ${object[i].nomeObra}`,
                     fields: [
                       {
-                        name: 'Autor Obra',
+                        name: "Autor Obra",
                         value: `${object[i].autorObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Faixa Etária',
+                        name: "Faixa Etária",
                         value: `${object[i].faixaEtariaObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Gênero Textual',
+                        name: "Gênero Textual",
                         value: `${object[i].generoTextualObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Status Obra',
+                        name: "Status Obra",
                         value: `${object[i].statusObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Link Acesso',
+                        name: "Link Acesso",
                         value: `${object[i].linkAcessoObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Sinopse',
+                        name: "Sinopse",
                         value: `${object[i].sinopseObra}`,
                       },
-                    ]  
+                    ],
                   };
                   message.channel.send({ embeds: [retornoEmbed] });
                   contador += 1;
@@ -238,39 +238,39 @@ client.on("messageCreate", async (message) => {
                 object = await Obra.find({ linkAcessoObra: valor });
                 for (const i in object) {
                   const retornoEmbed = {
-                    color: ('RANDOM'),
+                    color: "RANDOM",
                     title: `Obra: ${object[i].nomeObra}`,
                     fields: [
                       {
-                        name: 'Autor Obra',
+                        name: "Autor Obra",
                         value: `${object[i].autorObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Faixa Etária',
+                        name: "Faixa Etária",
                         value: `${object[i].faixaEtariaObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Gênero Textual',
+                        name: "Gênero Textual",
                         value: `${object[i].generoTextualObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Status Obra',
+                        name: "Status Obra",
                         value: `${object[i].statusObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Link Acesso',
+                        name: "Link Acesso",
                         value: `${object[i].linkAcessoObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Sinopse',
+                        name: "Sinopse",
                         value: `${object[i].sinopseObra}`,
                       },
-                    ]  
+                    ],
                   };
                   message.channel.send({ embeds: [retornoEmbed] });
                   contador += 1;
@@ -285,39 +285,39 @@ client.on("messageCreate", async (message) => {
                 object = await Obra.find({ faixaEtariaObra: valor });
                 for (const i in object) {
                   const retornoEmbed = {
-                    color: ('RANDOM'),
+                    color: "RANDOM",
                     title: `Obra: ${object[i].nomeObra}`,
                     fields: [
                       {
-                        name: 'Autor Obra',
+                        name: "Autor Obra",
                         value: `${object[i].autorObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Faixa Etária',
+                        name: "Faixa Etária",
                         value: `${object[i].faixaEtariaObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Gênero Textual',
+                        name: "Gênero Textual",
                         value: `${object[i].generoTextualObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Status Obra',
+                        name: "Status Obra",
                         value: `${object[i].statusObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Link Acesso',
+                        name: "Link Acesso",
                         value: `${object[i].linkAcessoObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Sinopse',
+                        name: "Sinopse",
                         value: `${object[i].sinopseObra}`,
                       },
-                    ]  
+                    ],
                   };
                   message.channel.send({ embeds: [retornoEmbed] });
                   contador += 1;
@@ -332,39 +332,39 @@ client.on("messageCreate", async (message) => {
                 object = await Obra.find({ statusObra: valor });
                 for (const i in object) {
                   const retornoEmbed = {
-                    color: ('RANDOM'),
+                    color: "RANDOM",
                     title: `Obra: ${object[i].nomeObra}`,
                     fields: [
                       {
-                        name: 'Autor Obra',
+                        name: "Autor Obra",
                         value: `${object[i].autorObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Faixa Etária',
+                        name: "Faixa Etária",
                         value: `${object[i].faixaEtariaObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Gênero Textual',
+                        name: "Gênero Textual",
                         value: `${object[i].generoTextualObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Status Obra',
+                        name: "Status Obra",
                         value: `${object[i].statusObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Link Acesso',
+                        name: "Link Acesso",
                         value: `${object[i].linkAcessoObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Sinopse',
+                        name: "Sinopse",
                         value: `${object[i].sinopseObra}`,
                       },
-                    ]  
+                    ],
                   };
                   message.channel.send({ embeds: [retornoEmbed] });
                   contador += 1;
@@ -379,39 +379,39 @@ client.on("messageCreate", async (message) => {
                 object = await Obra.find({ generoObra: valor });
                 for (const i in object) {
                   const retornoEmbed = {
-                    color: ('RANDOM'),
+                    color: "RANDOM",
                     title: `Obra: ${object[i].nomeObra}`,
                     fields: [
                       {
-                        name: 'Autor Obra',
+                        name: "Autor Obra",
                         value: `${object[i].autorObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Faixa Etária',
+                        name: "Faixa Etária",
                         value: `${object[i].faixaEtariaObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Gênero Textual',
+                        name: "Gênero Textual",
                         value: `${object[i].generoTextualObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Status Obra',
+                        name: "Status Obra",
                         value: `${object[i].statusObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Link Acesso',
+                        name: "Link Acesso",
                         value: `${object[i].linkAcessoObra}`,
                         inline: true,
                       },
                       {
-                        name: 'Sinopse',
+                        name: "Sinopse",
                         value: `${object[i].sinopseObra}`,
                       },
-                    ]  
+                    ],
                   };
                   message.channel.send({ embeds: [retornoEmbed] });
                   contador += 1;
@@ -421,7 +421,7 @@ client.on("messageCreate", async (message) => {
                     message.channel.send("===============================");
                   }
                 }
-                console.log("Erro!")
+                console.log("Erro!");
                 break;
               default:
                 message.channel.send(
@@ -446,10 +446,12 @@ client.on("messageCreate", async (message) => {
       const argumento = await Obra.find({ discordId: message.author.id });
       let description = "";
       for (const i in argumento) {
-        description += `${parseInt(i) + 1}) ${argumento[i].autorObra} \n ${argumento[i].nomeObra} \n`;
+        description += `${parseInt(i) + 1}) ${argumento[i].autorObra} \n ${
+          argumento[i].nomeObra
+        } \n`;
       }
       const exampleEmbed = {
-        color: 'RANDOM',
+        color: "RANDOM",
         title: "Obras Autores",
         fields: [
           {
@@ -477,39 +479,39 @@ client.on("messageCreate", async (message) => {
 
         if (palavra) {
           const retornoEmbed = {
-            color: ('RANDOM'),
+            color: "RANDOM",
             title: "Obra: " + palavra.nomeObra,
             fields: [
               {
-                name: 'Autor Obra',
+                name: "Autor Obra",
                 value: palavra.autorObra,
                 inline: true,
               },
               {
-                name: 'Faixa Etária',
+                name: "Faixa Etária",
                 value: palavra.faixaEtariaObra,
                 inline: true,
               },
               {
-                name: 'Gênero Textual',
+                name: "Gênero Textual",
                 value: palavra.generoTextualObra,
                 inline: true,
               },
               {
-                name: 'Status Obra',
+                name: "Status Obra",
                 value: palavra.statusObra,
                 inline: true,
               },
               {
-                name: 'Link Acesso',
+                name: "Link Acesso",
                 value: palavra.linkAcessoObra,
                 inline: true,
               },
               {
-                name: 'Sinopse',
+                name: "Sinopse",
                 value: palavra.sinopseObra,
               },
-            ]  
+            ],
           };
           message.channel.send({ embeds: [retornoEmbed] });
         } else {
@@ -531,10 +533,13 @@ client.on("messageCreate", async (message) => {
       const argumento = await Obra.find({ discordId: message.author.id });
       let description = "";
       for (const i in argumento) {
-        description += `${parseInt(i) + 1}) ${argumento[i].nomeObra} - ${argumento[i].autorObra} - ID Obra: ${argumento[i].idObra} - Status: ${argumento[i].statusObra}\n`;
+        description += `${parseInt(i) + 1}) ${argumento[i].nomeObra} - ${
+          argumento[i].autorObra
+        } - ID Obra: ${argumento[i].idObra} - Status: ${
+          argumento[i].statusObra
+        }\n`;
       }
       message.channel.send(description);
-      
     } else {
       const arg = args[1];
       console.log(arg);
@@ -630,22 +635,32 @@ client.on("messageCreate", async (message) => {
       args + message.content.indexOf(args[1])
     );
     */
-    message.channel.send(`Obra ${obraAtual} atualizada para obra ${obraAtualizada}`);
+    message.channel.send(
+      `Obra ${obraAtual} atualizada para obra ${obraAtualizada}`
+    );
 
-    object = await Obra.updateOne({ idObra: obraAtual }, { nomeObra: obraAtualizada });
+    object = await Obra.updateOne(
+      { idObra: obraAtual },
+      { nomeObra: obraAtualizada }
+    );
   }
   // ========================================= UPDATE DE ATRIBUTO AUTOR OBRA ===========================================
   if (message.content.toLowerCase().startsWith("?update_atributo_autorobra")) {
     const args = message.content.trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
-    let nomedaObra = args[0]
+    let nomedaObra = args[0];
     //let autorAtual = args[1];
     let autorAtualizado = args[2];
 
-    message.channel.send(`Obra ${nomedaObra} atualizada. Autor alterado para para autor ${autorAtualizado}`);
+    message.channel.send(
+      `Obra ${nomedaObra} atualizada. Autor alterado para para autor ${autorAtualizado}`
+    );
 
-    object = await Obra.findOneAndUpdate( { nomeObra: nomedaObra }, { autorObra: autorAtualizado } )
+    object = await Obra.findOneAndUpdate(
+      { nomeObra: nomedaObra },
+      { autorObra: autorAtualizado }
+    );
     //object = await Obra.updateMany({ autorObra: autorAtual }, { autorObra: autorAtualizado });
   }
   // ========================================       UPDATE STATUS DA OBRA   =============================================
@@ -653,12 +668,17 @@ client.on("messageCreate", async (message) => {
     const args = message.content.trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
-    let nomedaObra = args[0]
+    let nomedaObra = args[0];
     let statusObra = args[1];
 
-    message.channel.send(`Obra ${nomedaObra} atualizada. O status foi alterado para ${statusObra}`);
+    message.channel.send(
+      `Obra ${nomedaObra} atualizada. O status foi alterado para ${statusObra}`
+    );
 
-    object = await Obra.findOneAndUpdate( { nomeObra: nomedaObra }, { statusObra: statusObra } )
+    object = await Obra.findOneAndUpdate(
+      { nomeObra: nomedaObra },
+      { statusObra: statusObra }
+    );
     //object = await Obra.updateMany({ autorObra: autorAtual }, { autorObra: autorAtualizado });
   }
   // =========================================     RECOMENDAÇÃO DE LIVRO     ===========================================
@@ -672,7 +692,7 @@ client.on("messageCreate", async (message) => {
         .skip(random)
         .exec(function (erro, result) {
           const Embed = new MessageEmbed()
-            .setColor('RANDOM')
+            .setColor("RANDOM")
             .setTitle(result.nomeObra)
             .setDescription(result.sinopseObra)
             .setThumbnail(
@@ -681,16 +701,16 @@ client.on("messageCreate", async (message) => {
             .addFields(
               {
                 name: "Gênero da Obra",
-                value: result.generoTextualObra
+                value: result.generoTextualObra,
               },
               {
                 name: "Status",
-                value: result.statusObra
+                value: result.statusObra,
               },
               {
                 name: "Link para acessar a obra",
-                value: result.linkAcessoObra
-              },
+                value: result.linkAcessoObra,
+              }
             );
           message.channel.send({ embeds: [Embed] });
           message.author.send({ embeds: [Embed] });
@@ -700,7 +720,7 @@ client.on("messageCreate", async (message) => {
   // =========================================         HELP DISCORD          ===========================================
   if (message.content.toLowerCase().startsWith("?help")) {
     const Embed = new MessageEmbed()
-      .setColor('RANDOM')
+      .setColor("RANDOM")
       .setTitle("Lista de Comandos")
       .setDescription("Abaixo segue os comandos utilizados pelo BOT.")
       .setThumbnail(
@@ -716,7 +736,7 @@ client.on("messageCreate", async (message) => {
         },
         {
           name: "Comandos de Busca",
-          value: "`?obras_autor`\n" + "`?pesquisar_obras`\n"+ "`?atributo`\n",
+          value: "`?obras_autor`\n" + "`?pesquisar_obras`\n" + "`?atributo`\n",
           inline: true,
         },
         {
@@ -791,7 +811,7 @@ client.on("message", async (message) => {
       }
     }
   }
-  
+
   /* =============================== CRIAÇÃO DE NOTA NOVA NO BANCO DE DADOS =========================== */
   if (message.content.toLowerCase().startsWith("?createnote")) {
     const index = message.content.indexOf(" ");
@@ -809,7 +829,6 @@ client.on("message", async (message) => {
   }
   /* ================================= BUSCA AS NOTAS NO BANCO DE DADOS ============================ */
   if (message.content.toLowerCase().startsWith("?getnotes")) {
-
     const args = message.content.split(" ");
     console.log(args);
     if (args.length === 1) {
@@ -819,7 +838,7 @@ client.on("message", async (message) => {
         description += `${parseInt(i) + 1}) ${notes[i].description}\n`;
       }
       const exampleEmbed = {
-        color: 'RANDOM',
+        color: "RANDOM",
         title: "Anotações",
         fields: [
           {
@@ -858,5 +877,31 @@ client.on("message", async (message) => {
       { description: nota2 }
     );
   }
-  
+  // ================================ CRIAÇÃO CLUBE DO LIVRO ========================
+  if (message.content.toLowerCase().startsWith("?criar_clube")) {
+    const index = message.content.indexOf(" ");
+    const nomeClube = message.content.slice(index + 1);
+    message.guild.channels.create(nomeClube, {
+      type: 'GUILD_TEXT',
+    })
+    .then((channel) => {
+      console.log(channel)
+      const categoryID = '939793847448399907'
+      channel.setParent(categoryID)
+    })
+  }
+  // =============================== ADICIONAR USUÁRIOS AO CLUBE DO LIVRO ==============================
+  if (message.content.toLowerCase().startsWith("?adicionar_usuario_clube")) {
+    let clube = args[0];
+    let usuario = args[1];
+
+    let member = usuario
+
+    member.roles.add(role).catch(console.error);
+
+    message.author.send(
+      `Obra ${nomedaObra} atualizada. Autor alterado para para autor ${autorAtualizado}`
+    );
+    
+  }
 });

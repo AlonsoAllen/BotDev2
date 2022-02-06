@@ -462,11 +462,10 @@ client.on("messageCreate", async (message) => {
       };
       //message.channel.send(description);
       message.channel.send({ embeds: [exampleEmbed] });
-      message.channel.send(description);
+      //message.channel.send(description);
     } else {
       const arg = args[1];
-      console.log(arg);
-
+      console.log(arg)
       try {
         const palavra = await Obra.findOne({
           autorObra: arg,
@@ -579,7 +578,7 @@ client.on("messageCreate", async (message) => {
       }
     }
   }
-  // =========================================        DELETAR AUTOR         ============================================
+  // ========================================= DELETAR AUTOR << NÃO SERÁ UTILIZADO >>         ============================================
   if (message.content.toLowerCase().startsWith("?delete_autor")) {
     //pesquisa no schema Autor
     const args = message.content.split(" ");
@@ -624,18 +623,22 @@ client.on("messageCreate", async (message) => {
 
     let obraAtual = args[0];
     let obraAtualizada = args[1];
+
+    const valores = message.content.slice(
+      message.content.indexOf(args[1])
+    );
     /*
     const obraAtualizada = message.content.slice(
       args + message.content.indexOf(args[1])
     );
     */
     message.channel.send(
-      `Obra ${obraAtual} atualizada para obra ${obraAtualizada}`
+      `Obra ID **${obraAtual}** atualizada para obra ${valores}`
     );
 
     object = await Obra.updateOne(
       { _id: obraAtual },
-      { nomeObra: obraAtualizada }
+      { nomeObra: valores }
     );
   }
   // =========================     UPDATE DE ATRIBUTO AUTOR OBRA - TODOS LIVROS AUTOR     ============================
@@ -667,21 +670,12 @@ client.on("messageCreate", async (message) => {
     const command = args.shift().toLowerCase();
 
     let idObra = args[0];
-    //let autorAtual = args[1];
     let autorAtualizado = args[1];
 
     message.channel.send(
       `Obra atualizada. Autor alterado para para autor ${autorAtualizado}`
     );
-    /*
-    object = await Obra.findOneAndUpdate(
-      { nomeObra: nomedaObra },
-      { autorObra: autorAtualizado }
-    );
-    */
-    object = await Obra.updateOne(
-      { _id: idObra },
-      { autorObra: autorAtualizado }
+    object = await Obra.updateOne({ _id: idObra }, { autorObra: autorAtualizado }
     );
   }
   // ========================================       UPDATE STATUS DA OBRA   =============================================
@@ -689,15 +683,15 @@ client.on("messageCreate", async (message) => {
     const args = message.content.trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
-    let nomedaObra = args[0];
+    let idObra = args[0];
     let statusObra = args[1];
 
     message.channel.send(
-      `Obra ${nomedaObra} atualizada. O status foi alterado para ${statusObra}`
+      `Obra ID **${idObra}** atualizada. O status foi alterado para ${statusObra}`
     );
 
     object = await Obra.findOneAndUpdate(
-      { nomeObra: nomedaObra },
+      { _id: idObra },
       { statusObra: statusObra }
     );
     //object = await Obra.updateMany({ autorObra: autorAtual }, { autorObra: autorAtualizado });
@@ -767,15 +761,20 @@ client.on("messageCreate", async (message) => {
         },
         {
           name: "Comandos gerais",
-          value: "`?recomendacao` " + "` /ping` " + "` /say`",
+          value: "`?recomendacao` " + "` /ping` " + "` /say` " + " `?help` " + " `?help_comando` ",
+          //inline: true,
+        },
+        {
+          name: "Comandos Clube",
+          value: "`?criar_clube` " + "` ?adicionar_usuario_clube (draft)` ",
           //inline: true,
         }
       );
     message.channel.send({ embeds: [Embed] });
     message.author.send({ embeds: [Embed] });
   }
-  // ========================================       UPDATE STATUS DA OBRA   =============================================
-  if (message.content.toLowerCase().startsWith("!help_comando")) {
+  // ========================================       AJUDA COM COMANDO   =============================================
+  if (message.content.toLowerCase().startsWith("?help_comando")) {
     const args = message.content.trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
@@ -824,6 +823,33 @@ client.on("messageCreate", async (message) => {
         message.channel.send({ embeds: [EmbedErro] });
         //message.channel.send("Comando não existe ou não foi cadastrado ainda!");
     }
+  }
+  // ================================ CRIAÇÃO CLUBE DO LIVRO ========================
+  if (message.content.toLowerCase().startsWith("?criar_clube")) {
+    const index = message.content.indexOf(" ");
+    const nomeClube = message.content.slice(index + 1);
+    message.guild.channels
+      .create(nomeClube, {
+        type: "GUILD_TEXT",
+      })
+      .then((channel) => {
+        console.log(channel);
+        const categoryID = "909159122002407464";
+        channel.setParent(categoryID);
+      });
+  }
+  // =============================== ADICIONAR USUÁRIOS AO CLUBE DO LIVRO ==============================
+  if (message.content.toLowerCase().startsWith("?adicionar_usuario_clube")) {
+    let clube = args[0];
+    let usuario = args[1];
+
+    let member = usuario;
+
+    member.roles.add(role).catch(console.error);
+
+    message.author.send(
+      `Obra ${nomedaObra} atualizada. Autor alterado para para autor ${autorAtualizado}`
+    );
   }
 });
 
@@ -949,31 +975,6 @@ client.on("message", async (message) => {
       { description: nota2 }
     );
   }
-  // ================================ CRIAÇÃO CLUBE DO LIVRO ========================
-  if (message.content.toLowerCase().startsWith("?criar_clube")) {
-    const index = message.content.indexOf(" ");
-    const nomeClube = message.content.slice(index + 1);
-    message.guild.channels
-      .create(nomeClube, {
-        type: "GUILD_TEXT",
-      })
-      .then((channel) => {
-        console.log(channel);
-        const categoryID = "939793847448399907";
-        channel.setParent(categoryID);
-      });
-  }
-  // =============================== ADICIONAR USUÁRIOS AO CLUBE DO LIVRO ==============================
-  if (message.content.toLowerCase().startsWith("?adicionar_usuario_clube")) {
-    let clube = args[0];
-    let usuario = args[1];
-
-    let member = usuario;
-
-    member.roles.add(role).catch(console.error);
-
-    message.author.send(
-      `Obra ${nomedaObra} atualizada. Autor alterado para para autor ${autorAtualizado}`
-    );
-  }
+  
+  
 });

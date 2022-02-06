@@ -49,7 +49,7 @@ client.on("messageCreate", async (message) => {
       });
 
       const exampleEmbed = {
-        color: 0x0099ff,
+        color: 'RANDOM',
         title: "Anotações",
         fields: [
           {
@@ -78,16 +78,42 @@ client.on("messageCreate", async (message) => {
         if (object.length === contador) {
           break;
         } else {
-          description += `**Nome da obra:** ${object[i].nomeObra}\n`;
-          description += `**Autor:** ${object[i].autorObra}\n`;
-          description += `**Tipo de obra:** ${object[i].generoTextualObra}\n`;
-          description += `**Link para leitura:** ${object[i].linkAcessoObra}\n`;
-          description += `**Faixa etária:** ${object[i].faixaEtariaObra}\n`;
-          description += `**Status:** ${object[i].statusObra}\n`;
-          description += `**Gêneros:** ${object[i].generoObra[0]}\n`;
-          description += `**Sinopse:** ${object[i].sinopseObra}\n`;
-          description += `===============================\n`;
-          message.channel.send(description);
+          const retornoEmbed = {
+            color: ('RANDOM'),
+            title: `Obra: ${object[i].nomeObra}`,
+            fields: [
+              {
+                name: 'Autor Obra',
+                value: `${object[i].autorObra}`,
+                inline: true,
+              },
+              {
+                name: 'Faixa Etária',
+                value: `${object[i].faixaEtariaObra}`,
+                inline: true,
+              },
+              {
+                name: 'Gênero Textual',
+                value: `${object[i].generoTextualObra}`,
+                inline: true,
+              },
+              {
+                name: 'Status Obra',
+                value: `${object[i].statusObra}`,
+                inline: true,
+              },
+              {
+                name: 'Link Acesso',
+                value: `${object[i].linkAcessoObra}`,
+                inline: true,
+              },
+              {
+                name: 'Sinopse',
+                value: `${object[i].sinopseObra}`,
+              },
+            ]  
+          };
+          message.channel.send({ embeds: [retornoEmbed] });
           console.log("Erro!")
         }
       }
@@ -117,14 +143,42 @@ client.on("messageCreate", async (message) => {
               case "nomeobra":
                 object = await Obra.find({ nomeObra: valores });
                 for (const i in object) {
-                  message.channel.send("**Nome da obra:** " + object[i].nomeObra);
-                  message.channel.send("**Autor:** " + object[i].autorObra);
-                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
-                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
-                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
-                  message.channel.send("**Status:** " + object[i].statusObra);
-                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
-                  message.channel.send("**Sinopse:** " + object[i].sinopseObra);
+                  const retornoEmbed = {
+                    color: ('RANDOM'),
+                    title: `Obra: ${object[i].nomeObra}`,
+                    fields: [
+                      {
+                        name: 'Autor Obra',
+                        value: `${object[i].autorObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Faixa Etária',
+                        value: `${object[i].faixaEtariaObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Gênero Textual',
+                        value: `${object[i].generoTextualObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Status Obra',
+                        value: `${object[i].statusObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Link Acesso',
+                        value: `${object[i].linkAcessoObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Sinopse',
+                        value: `${object[i].sinopseObra}`,
+                      },
+                    ]  
+                  };
+                  message.channel.send({ embeds: [retornoEmbed] });
                   contador += 1;
                   if (object.length === contador) {
                     break;
@@ -136,24 +190,42 @@ client.on("messageCreate", async (message) => {
               case "generotextual":
                 object = await Obra.find({ generoTextualObra: valor });
                 for (const i in object) {
-                  message.channel.send(
-                    "**Nome da obra:** " + object[i].nomeObra
-                  );
-                  message.channel.send("**Autor:** " + object[i].autorObra);
-                  message.channel.send(
-                    "**Tipo de obra:** " + object[i].generoTextualObra
-                  );
-                  message.channel.send(
-                    "**Link para leitura:** " + object[i].linkAcessoObra
-                  );
-                  message.channel.send(
-                    "**Faixa etária:** " + object[i].faixaEtariaObra
-                  );
-                  message.channel.send("**Status:** " + object[i].statusObra);
-                  message.channel.send(
-                    "**Gêneros:** " + object[i].generoObra[0]
-                  );
-                  message.channel.send("**Sinopse:** " + object[i].sinopseObra);
+                  const retornoEmbed = {
+                    color: ('RANDOM'),
+                    title: `Obra: ${object[i].nomeObra}`,
+                    fields: [
+                      {
+                        name: 'Autor Obra',
+                        value: `${object[i].autorObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Faixa Etária',
+                        value: `${object[i].faixaEtariaObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Gênero Textual',
+                        value: `${object[i].generoTextualObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Status Obra',
+                        value: `${object[i].statusObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Link Acesso',
+                        value: `${object[i].linkAcessoObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Sinopse',
+                        value: `${object[i].sinopseObra}`,
+                      },
+                    ]  
+                  };
+                  message.channel.send({ embeds: [retornoEmbed] });
                   contador += 1;
                   if (object.length === contador) {
                     break;
@@ -165,24 +237,42 @@ client.on("messageCreate", async (message) => {
               case "linkobra":
                 object = await Obra.find({ linkAcessoObra: valor });
                 for (const i in object) {
-                  message.channel.send(
-                    "**Nome da obra:** " + object[i].nomeObra
-                  );
-                  message.channel.send("**Autor:** " + object[i].autorObra);
-                  message.channel.send(
-                    "**Tipo de obra:** " + object[i].generoTextualObra
-                  );
-                  message.channel.send(
-                    "**Link para leitura:** " + object[i].linkAcessoObra
-                  );
-                  message.channel.send(
-                    "**Faixa etária:** " + object[i].faixaEtariaObra
-                  );
-                  message.channel.send("**Status:** " + object[i].statusObra);
-                  message.channel.send(
-                    "**Gêneros:** " + object[i].generoObra[0]
-                  );
-                  message.channel.send("**Sinopse:** " + object[i].sinopseObra);
+                  const retornoEmbed = {
+                    color: ('RANDOM'),
+                    title: `Obra: ${object[i].nomeObra}`,
+                    fields: [
+                      {
+                        name: 'Autor Obra',
+                        value: `${object[i].autorObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Faixa Etária',
+                        value: `${object[i].faixaEtariaObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Gênero Textual',
+                        value: `${object[i].generoTextualObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Status Obra',
+                        value: `${object[i].statusObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Link Acesso',
+                        value: `${object[i].linkAcessoObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Sinopse',
+                        value: `${object[i].sinopseObra}`,
+                      },
+                    ]  
+                  };
+                  message.channel.send({ embeds: [retornoEmbed] });
                   contador += 1;
                   if (object.length === contador) {
                     break;
@@ -194,24 +284,42 @@ client.on("messageCreate", async (message) => {
               case "faixaobra":
                 object = await Obra.find({ faixaEtariaObra: valor });
                 for (const i in object) {
-                  message.channel.send(
-                    "**Nome da obra:** " + object[i].nomeObra
-                  );
-                  message.channel.send("**Autor:** " + object[i].autorObra);
-                  message.channel.send(
-                    "**Tipo de obra:** " + object[i].generoTextualObra
-                  );
-                  message.channel.send(
-                    "**Link para leitura:** " + object[i].linkAcessoObra
-                  );
-                  message.channel.send(
-                    "**Faixa etária:** " + object[i].faixaEtariaObra
-                  );
-                  message.channel.send("**Status:** " + object[i].statusObra);
-                  message.channel.send(
-                    "**Gêneros:** " + object[i].generoObra[0]
-                  );
-                  message.channel.send("**Sinopse:** " + object[i].sinopseObra);
+                  const retornoEmbed = {
+                    color: ('RANDOM'),
+                    title: `Obra: ${object[i].nomeObra}`,
+                    fields: [
+                      {
+                        name: 'Autor Obra',
+                        value: `${object[i].autorObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Faixa Etária',
+                        value: `${object[i].faixaEtariaObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Gênero Textual',
+                        value: `${object[i].generoTextualObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Status Obra',
+                        value: `${object[i].statusObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Link Acesso',
+                        value: `${object[i].linkAcessoObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Sinopse',
+                        value: `${object[i].sinopseObra}`,
+                      },
+                    ]  
+                  };
+                  message.channel.send({ embeds: [retornoEmbed] });
                   contador += 1;
                   if (object.length === contador) {
                     break;
@@ -223,24 +331,42 @@ client.on("messageCreate", async (message) => {
               case "statusobra":
                 object = await Obra.find({ statusObra: valor });
                 for (const i in object) {
-                  message.channel.send(
-                    "**Nome da obra:** " + object[i].nomeObra
-                  );
-                  message.channel.send("**Autor:** " + object[i].autorObra);
-                  message.channel.send(
-                    "**Tipo de obra:** " + object[i].generoTextualObra
-                  );
-                  message.channel.send(
-                    "**Link para leitura:** " + object[i].linkAcessoObra
-                  );
-                  message.channel.send(
-                    "**Faixa etária:** " + object[i].faixaEtariaObra
-                  );
-                  message.channel.send("**Status:** " + object[i].statusObra);
-                  message.channel.send(
-                    "**Gêneros:** " + object[i].generoObra[0]
-                  );
-                  message.channel.send("**Sinopse:** " + object[i].sinopseObra);
+                  const retornoEmbed = {
+                    color: ('RANDOM'),
+                    title: `Obra: ${object[i].nomeObra}`,
+                    fields: [
+                      {
+                        name: 'Autor Obra',
+                        value: `${object[i].autorObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Faixa Etária',
+                        value: `${object[i].faixaEtariaObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Gênero Textual',
+                        value: `${object[i].generoTextualObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Status Obra',
+                        value: `${object[i].statusObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Link Acesso',
+                        value: `${object[i].linkAcessoObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Sinopse',
+                        value: `${object[i].sinopseObra}`,
+                      },
+                    ]  
+                  };
+                  message.channel.send({ embeds: [retornoEmbed] });
                   contador += 1;
                   if (object.length === contador) {
                     break;
@@ -252,24 +378,42 @@ client.on("messageCreate", async (message) => {
               case "generoobra":
                 object = await Obra.find({ generoObra: valor });
                 for (const i in object) {
-                  message.channel.send(
-                    "**Nome da obra:** " + object[i].nomeObra
-                  );
-                  message.channel.send("**Autor:** " + object[i].autorObra);
-                  message.channel.send(
-                    "**Tipo de obra:** " + object[i].generoTextualObra
-                  );
-                  message.channel.send(
-                    "**Link para leitura:** " + object[i].linkAcessoObra
-                  );
-                  message.channel.send(
-                    "**Faixa etária:** " + object[i].faixaEtariaObra
-                  );
-                  message.channel.send("**Status:** " + object[i].statusObra);
-                  message.channel.send(
-                    "**Gêneros:** " + object[i].generoObra[0]
-                  );
-                  message.channel.send("**Sinopse:** " + object[i].sinopseObra);
+                  const retornoEmbed = {
+                    color: ('RANDOM'),
+                    title: `Obra: ${object[i].nomeObra}`,
+                    fields: [
+                      {
+                        name: 'Autor Obra',
+                        value: `${object[i].autorObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Faixa Etária',
+                        value: `${object[i].faixaEtariaObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Gênero Textual',
+                        value: `${object[i].generoTextualObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Status Obra',
+                        value: `${object[i].statusObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Link Acesso',
+                        value: `${object[i].linkAcessoObra}`,
+                        inline: true,
+                      },
+                      {
+                        name: 'Sinopse',
+                        value: `${object[i].sinopseObra}`,
+                      },
+                    ]  
+                  };
+                  message.channel.send({ embeds: [retornoEmbed] });
                   contador += 1;
                   if (object.length === contador) {
                     break;
@@ -302,8 +446,20 @@ client.on("messageCreate", async (message) => {
       const argumento = await Obra.find({ discordId: message.author.id });
       let description = "";
       for (const i in argumento) {
-        description += `${parseInt(i) + 1}) ${argumento[i].autorObra}\n`;
+        description += `${parseInt(i) + 1}) ${argumento[i].autorObra} \n ${argumento[i].nomeObra} \n`;
       }
+      const exampleEmbed = {
+        color: 'RANDOM',
+        title: "Obras Autores",
+        fields: [
+          {
+            name: "Descrição da anotação",
+            value: description,
+          },
+        ],
+      };
+      //message.channel.send(description);
+      message.channel.send({ embeds: [exampleEmbed] });
       message.channel.send(description);
     } else {
       const arg = args[1];
@@ -320,14 +476,42 @@ client.on("messageCreate", async (message) => {
         console.log(palavra);
 
         if (palavra) {
-          message.channel.send("**Nome da obra:** " + palavra.nomeObra);
-          message.channel.send("**Autor:** " + palavra.autorObra);
-          message.channel.send("**Tipo de obra:** " + palavra.generoTextualObra);
-          message.channel.send("**Link para leitura:** " + palavra.linkAcessoObra);
-          message.channel.send("**Faixa etária:** " + palavra.faixaEtariaObra);
-          message.channel.send("**Status:** " + palavra.statusObra);
-          message.channel.send("**Gêneros:** " + palavra.generoObra[0]);
-          message.channel.send("**Sinopse:** " + palavra.sinopseObra);
+          const retornoEmbed = {
+            color: ('RANDOM'),
+            title: "Obra: " + palavra.nomeObra,
+            fields: [
+              {
+                name: 'Autor Obra',
+                value: palavra.autorObra,
+                inline: true,
+              },
+              {
+                name: 'Faixa Etária',
+                value: palavra.faixaEtariaObra,
+                inline: true,
+              },
+              {
+                name: 'Gênero Textual',
+                value: palavra.generoTextualObra,
+                inline: true,
+              },
+              {
+                name: 'Status Obra',
+                value: palavra.statusObra,
+                inline: true,
+              },
+              {
+                name: 'Link Acesso',
+                value: palavra.linkAcessoObra,
+                inline: true,
+              },
+              {
+                name: 'Sinopse',
+                value: palavra.sinopseObra,
+              },
+            ]  
+          };
+          message.channel.send({ embeds: [retornoEmbed] });
         } else {
           message.channel.send("Não encontrado o valor informado.");
         }
@@ -347,11 +531,10 @@ client.on("messageCreate", async (message) => {
       const argumento = await Obra.find({ discordId: message.author.id });
       let description = "";
       for (const i in argumento) {
-        description += `${parseInt(i) + 1}) ${argumento[i].nomeObra} - ${
-          argumento[i].autorObra
-        }\n`;
+        description += `${parseInt(i) + 1}) ${argumento[i].nomeObra} - ${argumento[i].autorObra} - ID Obra: ${argumento[i].idObra} - Status: ${argumento[i].statusObra}\n`;
       }
       message.channel.send(description);
+      
     } else {
       const arg = args[1];
       console.log(arg);
@@ -442,22 +625,41 @@ client.on("messageCreate", async (message) => {
 
     let obraAtual = args[0];
     let obraAtualizada = args[1];
-
+    /*
+    const obraAtualizada = message.content.slice(
+      args + message.content.indexOf(args[1])
+    );
+    */
     message.channel.send(`Obra ${obraAtual} atualizada para obra ${obraAtualizada}`);
 
-    object = await Obra.updateMany({ nomeObra: obraAtual }, { nomeObra: obraAtualizada });
+    object = await Obra.updateOne({ idObra: obraAtual }, { nomeObra: obraAtualizada });
   }
   // ========================================= UPDATE DE ATRIBUTO AUTOR OBRA ===========================================
   if (message.content.toLowerCase().startsWith("?update_atributo_autorobra")) {
     const args = message.content.trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
-    let autorAtual = args[0];
-    let autorAtualizado = args[1];
+    let nomedaObra = args[0]
+    //let autorAtual = args[1];
+    let autorAtualizado = args[2];
 
-    message.channel.send(`Autor ${autorAtual} atualizado para autor ${autorAtualizado}`);
+    message.channel.send(`Obra ${nomedaObra} atualizada. Autor alterado para para autor ${autorAtualizado}`);
 
-    object = await Obra.updateMany({ autorObra: autorAtual }, { autorObra: autorAtualizado });
+    object = await Obra.findOneAndUpdate( { nomeObra: nomedaObra }, { autorObra: autorAtualizado } )
+    //object = await Obra.updateMany({ autorObra: autorAtual }, { autorObra: autorAtualizado });
+  }
+  // ========================================       UPDATE STATUS DA OBRA   =============================================
+  if (message.content.toLowerCase().startsWith("?update_status_obra")) {
+    const args = message.content.trim().split(/ +/);
+    const command = args.shift().toLowerCase();
+
+    let nomedaObra = args[0]
+    let statusObra = args[1];
+
+    message.channel.send(`Obra ${nomedaObra} atualizada. O status foi alterado para ${statusObra}`);
+
+    object = await Obra.findOneAndUpdate( { nomeObra: nomedaObra }, { statusObra: statusObra } )
+    //object = await Obra.updateMany({ autorObra: autorAtual }, { autorObra: autorAtualizado });
   }
   // =========================================     RECOMENDAÇÃO DE LIVRO     ===========================================
   if (message.content.toLowerCase().startsWith("?recomendacao")) {
@@ -470,7 +672,7 @@ client.on("messageCreate", async (message) => {
         .skip(random)
         .exec(function (erro, result) {
           const Embed = new MessageEmbed()
-            .setColor(0x0099ff)
+            .setColor('RANDOM')
             .setTitle(result.nomeObra)
             .setDescription(result.sinopseObra)
             .setThumbnail(
@@ -498,7 +700,7 @@ client.on("messageCreate", async (message) => {
   // =========================================         HELP DISCORD          ===========================================
   if (message.content.toLowerCase().startsWith("?help")) {
     const Embed = new MessageEmbed()
-      .setColor(0x0099ff)
+      .setColor('RANDOM')
       .setTitle("Lista de Comandos")
       .setDescription("Abaixo segue os comandos utilizados pelo BOT.")
       .setThumbnail(
@@ -514,13 +716,18 @@ client.on("messageCreate", async (message) => {
         },
         {
           name: "Comandos de Busca",
-          value: "`?obrasautor`\n" + "`?pesquisar_obras`\n"+ "`?atributo`\n",
+          value: "`?obras_autor`\n" + "`?pesquisar_obras`\n"+ "`?atributo`\n",
           inline: true,
         },
         {
           name: "Comandos de Delete",
-          value: "`?deleteautor`\n" + "`?deleteobrasautor`\n",
+          value: "`?delete_autor`\n" + "`?delete_obras_autor`\n",
           inline: true,
+        },
+        {
+          name: "Comandos gerais",
+          value: "`?recomendacao` " + "` /ping` " + "` /say`",
+          //inline: true,
         }
       );
     message.channel.send({ embeds: [Embed] });
@@ -602,21 +809,17 @@ client.on("message", async (message) => {
   }
   /* ================================= BUSCA AS NOTAS NO BANCO DE DADOS ============================ */
   if (message.content.toLowerCase().startsWith("?getnotes")) {
-    //?getnotes
-    //?getnotes <<id>>
-    const args = message.content.split(" ");
 
+    const args = message.content.split(" ");
     console.log(args);
     if (args.length === 1) {
       const notes = await Note.find({ userId: message.author.id });
-      //console.log(notes);
-      //message.channel.send(notes[0].description);
       let description = "";
       for (const i in notes) {
         description += `${parseInt(i) + 1}) ${notes[i].description}\n`;
       }
       const exampleEmbed = {
-        color: 0x0099ff,
+        color: 'RANDOM',
         title: "Anotações",
         fields: [
           {

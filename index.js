@@ -535,9 +535,7 @@ client.on("messageCreate", async (message) => {
       for (const i in argumento) {
         description += `${parseInt(i) + 1}) ${argumento[i].nomeObra} - ${
           argumento[i].autorObra
-        } - ID Obra: ${argumento[i].idObra} - Status: ${
-          argumento[i].statusObra
-        }\n`;
+        } - ID Obra: ${argumento[i]._id} - Status: ${argumento[i].statusObra}\n`;
       }
       message.channel.send(description);
     } else {
@@ -567,11 +565,7 @@ client.on("messageCreate", async (message) => {
       try {
         const palavra = await Obra.deleteMany({
           autorObra: arg,
-        }); /*, function (err, obra) {
-                if (err) return handleError(err);
-                // Prints "Space Ghost is a talk show host".*/
-        //console.log(obra.nome_obra, obra.discordId);
-        //({ discordId: message.author.id});  //nao funciona mesmo igual ao de cima... ver se é pelo tipo da variavel
+        }); 
         console.log(palavra);
 
         if (palavra) {
@@ -640,28 +634,55 @@ client.on("messageCreate", async (message) => {
     );
 
     object = await Obra.updateOne(
-      { idObra: obraAtual },
+      { _id: obraAtual },
       { nomeObra: obraAtualizada }
     );
   }
-  // ========================================= UPDATE DE ATRIBUTO AUTOR OBRA ===========================================
+  // =========================     UPDATE DE ATRIBUTO AUTOR OBRA - TODOS LIVROS AUTOR     ============================
   if (message.content.toLowerCase().startsWith("?update_atributo_autorobra")) {
     const args = message.content.trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
-    let nomedaObra = args[0];
-    //let autorAtual = args[1];
-    let autorAtualizado = args[2];
+    //let nomedaObra = args[0];
+    let autorAtual = args[0];
+    let autorAtualizado = args[1];
 
     message.channel.send(
-      `Obra ${nomedaObra} atualizada. Autor alterado para para autor ${autorAtualizado}`
+      `Obra atualizada. Autor alterado para para autor ${autorAtualizado}`
     );
-
+    /*
     object = await Obra.findOneAndUpdate(
       { nomeObra: nomedaObra },
       { autorObra: autorAtualizado }
     );
-    //object = await Obra.updateMany({ autorObra: autorAtual }, { autorObra: autorAtualizado });
+    */
+    object = await Obra.updateMany(
+      { autorObra: autorAtual },
+      { autorObra: autorAtualizado }
+    );
+  }
+  // ==================================      UPDATE DE ATRIBUTO AUTOR OBRA POR ID      =================================
+  if (message.content.toLowerCase().startsWith("?update_autorobra_idobra")) {
+    const args = message.content.trim().split(/ +/);
+    const command = args.shift().toLowerCase();
+
+    let idObra = args[0];
+    //let autorAtual = args[1];
+    let autorAtualizado = args[1];
+
+    message.channel.send(
+      `Obra atualizada. Autor alterado para para autor ${autorAtualizado}`
+    );
+    /*
+    object = await Obra.findOneAndUpdate(
+      { nomeObra: nomedaObra },
+      { autorObra: autorAtualizado }
+    );
+    */
+    object = await Obra.updateOne(
+      { _id: idObra },
+      { autorObra: autorAtualizado }
+    );
   }
   // ========================================       UPDATE STATUS DA OBRA   =============================================
   if (message.content.toLowerCase().startsWith("?update_status_obra")) {
@@ -752,6 +773,57 @@ client.on("messageCreate", async (message) => {
       );
     message.channel.send({ embeds: [Embed] });
     message.author.send({ embeds: [Embed] });
+  }
+  // ========================================       UPDATE STATUS DA OBRA   =============================================
+  if (message.content.toLowerCase().startsWith("!help_comando")) {
+    const args = message.content.trim().split(/ +/);
+    const command = args.shift().toLowerCase();
+
+    let comando = args[0];
+    switch (comando) {
+      case "pesquisar_obras":
+        const EmbedPesquisa = {
+          color: "RANDOM",
+          title: `Utilizando o comando ${comando}`,
+          fields: [
+            {
+              name: "Descrição",
+              value:
+                "Retorna tal informação de tal coisa, \n afim de fazer isso e aquilo.",
+            },
+          ],
+        };
+        message.channel.send({ embeds: [EmbedPesquisa] });
+        break;
+      case "recomendacao":
+        const EmbedRecomendacao = {
+          color: "RANDOM",
+          title: `Utilizando o comando ${comando}`,
+          fields: [
+            {
+              name: "Descrição",
+              value:
+                "Retorna tal informação de tal coisa, \n afim de fazer isso e aquilo.",
+            },
+          ],
+        };
+        message.channel.send({ embeds: [EmbedRecomendacao] });
+      break;
+      default:
+        const EmbedErro = {
+          color: "RED",
+          title: `ERRO`,
+          fields: [
+            {
+              name: "Motivo",
+              value:
+                "Comando não existe ou não foi cadastrado ainda!",
+            },
+          ],
+        };
+        message.channel.send({ embeds: [EmbedErro] });
+        //message.channel.send("Comando não existe ou não foi cadastrado ainda!");
+    }
   }
 });
 
@@ -881,27 +953,27 @@ client.on("message", async (message) => {
   if (message.content.toLowerCase().startsWith("?criar_clube")) {
     const index = message.content.indexOf(" ");
     const nomeClube = message.content.slice(index + 1);
-    message.guild.channels.create(nomeClube, {
-      type: 'GUILD_TEXT',
-    })
-    .then((channel) => {
-      console.log(channel)
-      const categoryID = '939793847448399907'
-      channel.setParent(categoryID)
-    })
+    message.guild.channels
+      .create(nomeClube, {
+        type: "GUILD_TEXT",
+      })
+      .then((channel) => {
+        console.log(channel);
+        const categoryID = "939793847448399907";
+        channel.setParent(categoryID);
+      });
   }
   // =============================== ADICIONAR USUÁRIOS AO CLUBE DO LIVRO ==============================
   if (message.content.toLowerCase().startsWith("?adicionar_usuario_clube")) {
     let clube = args[0];
     let usuario = args[1];
 
-    let member = usuario
+    let member = usuario;
 
     member.roles.add(role).catch(console.error);
 
     message.author.send(
       `Obra ${nomedaObra} atualizada. Autor alterado para para autor ${autorAtualizado}`
     );
-    
   }
 });

@@ -6,7 +6,7 @@ const Note = require("./src/schemas/NoteSchema");
 const Obra = require("./src/schemas/ObraSchema");
 const Autor = require("./src/schemas/AutorSchema");
 
-const { MessageAttachment, MessageEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 
 const client = new Client({
   intents: [
@@ -19,22 +19,14 @@ const client = new Client({
     "GUILD_PRESENCES",
   ],
 });
-/*
-client.on("guildMemberAdd", async (member) => {
-  const newMember = await User.create({
-    username: message.author.username,
-    discordId: message.author.id,
-  });
-});
-*/
 
 client.login(process.env.BOT_TOKEN);
 
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
-  // ========================== ADICIONA NOVA OBRA =======================
-  client.login(process.env.BOT_TOKEN);
+  // =========================================  ADICIONA NOVA OBRA TEMPLATE ============================================
+ 
   if (message.content.toLowerCase().startsWith("!obranova")) {
     const index = message.content.indexOf(" ");
     const descri = message.content.slice(index + 1);
@@ -73,7 +65,7 @@ client.on("messageCreate", async (message) => {
       message.channel.send("Falha ao tentar salvar.");
     }
   }
-  // ========================================= PESQUISA POR ATRIBUTO ============================================
+  // =========================================     PESQUISA POR ATRIBUTO    ============================================
   if (message.content.toLowerCase().startsWith("?atributo")) {
     var contador = 0;
     const args = message.content.split(" ");
@@ -96,6 +88,7 @@ client.on("messageCreate", async (message) => {
           description += `**Sinopse:** ${object[i].sinopseObra}\n`;
           description += `===============================\n`;
           message.channel.send(description);
+          console.log("Erro!")
         }
       }
     } else {
@@ -124,23 +117,13 @@ client.on("messageCreate", async (message) => {
               case "nomeobra":
                 object = await Obra.find({ nomeObra: valores });
                 for (const i in object) {
-                  message.channel.send(
-                    "**Nome da obra:** " + object[i].nomeObra
-                  );
+                  message.channel.send("**Nome da obra:** " + object[i].nomeObra);
                   message.channel.send("**Autor:** " + object[i].autorObra);
-                  message.channel.send(
-                    "**Tipo de obra:** " + object[i].generoTextualObra
-                  );
-                  message.channel.send(
-                    "**Link para leitura:** " + object[i].linkAcessoObra
-                  );
-                  message.channel.send(
-                    "**Faixa etária:** " + object[i].faixaEtariaObra
-                  );
+                  message.channel.send("**Tipo de obra:** " + object[i].generoTextualObra);
+                  message.channel.send("**Link para leitura:** " + object[i].linkAcessoObra);
+                  message.channel.send("**Faixa etária:** " + object[i].faixaEtariaObra);
                   message.channel.send("**Status:** " + object[i].statusObra);
-                  message.channel.send(
-                    "**Gêneros:** " + object[i].generoObra[0]
-                  );
+                  message.channel.send("**Gêneros:** " + object[i].generoObra[0]);
                   message.channel.send("**Sinopse:** " + object[i].sinopseObra);
                   contador += 1;
                   if (object.length === contador) {
@@ -294,6 +277,7 @@ client.on("messageCreate", async (message) => {
                     message.channel.send("===============================");
                   }
                 }
+                console.log("Erro!")
                 break;
               default:
                 message.channel.send(
@@ -308,8 +292,8 @@ client.on("messageCreate", async (message) => {
       }
     }
   }
-  // ========================================= PESQUISA AS OBRAS DO AUTOR ============================================
-  if (message.content.toLowerCase().startsWith("?obrasautor")) {
+  // =========================================  PESQUISA AS OBRAS DO AUTOR  ============================================
+  if (message.content.toLowerCase().startsWith("?obras_autor")) {
     //pesquisa no schema Obra
     const args = message.content.split(" ");
     console.log(args);
@@ -338,12 +322,8 @@ client.on("messageCreate", async (message) => {
         if (palavra) {
           message.channel.send("**Nome da obra:** " + palavra.nomeObra);
           message.channel.send("**Autor:** " + palavra.autorObra);
-          message.channel.send(
-            "**Tipo de obra:** " + palavra.generoTextualObra
-          );
-          message.channel.send(
-            "**Link para leitura:** " + palavra.linkAcessoObra
-          );
+          message.channel.send("**Tipo de obra:** " + palavra.generoTextualObra);
+          message.channel.send("**Link para leitura:** " + palavra.linkAcessoObra);
           message.channel.send("**Faixa etária:** " + palavra.faixaEtariaObra);
           message.channel.send("**Status:** " + palavra.statusObra);
           message.channel.send("**Gêneros:** " + palavra.generoObra[0]);
@@ -357,7 +337,7 @@ client.on("messageCreate", async (message) => {
       }
     }
   }
-  // =================================== PESQUISA TODAS AS OBRAS ===============================================
+  // =========================================    PESQUISA TODAS AS OBRAS   ============================================
   if (message.content.toLowerCase().startsWith("?pesquisar_obras")) {
     //pesquisa no schema Obra
     const args = message.content.split(" ");
@@ -377,8 +357,8 @@ client.on("messageCreate", async (message) => {
       console.log(arg);
     }
   }
-  // =================================== DELETAR OBRAS DE AUTOR ========================================
-  if (message.content.toLowerCase().startsWith("?deleteobrasautor")) {
+  // =========================================     DELETAR OBRAS DE AUTOR   ============================================
+  if (message.content.toLowerCase().startsWith("?delete_obras_autor")) {
     //pesquisa no schema Autor
     const args = message.content.split(" ");
     console.log(args);
@@ -417,8 +397,8 @@ client.on("messageCreate", async (message) => {
       }
     }
   }
-  // =================================== DELETAR AUTOR ========================================
-  if (message.content.toLowerCase().startsWith("?deleteautor")) {
+  // =========================================        DELETAR AUTOR         ============================================
+  if (message.content.toLowerCase().startsWith("?delete_autor")) {
     //pesquisa no schema Autor
     const args = message.content.split(" ");
     console.log(args);
@@ -455,28 +435,96 @@ client.on("messageCreate", async (message) => {
       }
     }
   }
-  // ========================================= UPDATE DE ATRIBUTO ============================================
+  // ========================================= UPDATE DE ATRIBUTO NOME OBRA ============================================
   if (message.content.toLowerCase().startsWith("?update_atributo_nomeobra")) {
     const args = message.content.trim().split(/ +/g);
     const command = args.shift().toLowerCase();
 
-    let nota = args[0];
-    let nota2 = args[1];
+    let obraAtual = args[0];
+    let obraAtualizada = args[1];
 
-    message.channel.send(`Obra ${nota} atualizada para obra ${nota2}`);
+    message.channel.send(`Obra ${obraAtual} atualizada para obra ${obraAtualizada}`);
 
-    object = await Obra.updateMany({ nomeObra: nota }, { nomeObra: nota2 });
+    object = await Obra.updateMany({ nomeObra: obraAtual }, { nomeObra: obraAtualizada });
   }
+  // ========================================= UPDATE DE ATRIBUTO AUTOR OBRA ===========================================
   if (message.content.toLowerCase().startsWith("?update_atributo_autorobra")) {
     const args = message.content.trim().split(/ +/);
     const command = args.shift().toLowerCase();
 
-    let nota = args[0];
-    let nota2 = args[1];
+    let autorAtual = args[0];
+    let autorAtualizado = args[1];
 
-    message.channel.send(`Autor ${nota} atualizado para autor ${nota2}`);
+    message.channel.send(`Autor ${autorAtual} atualizado para autor ${autorAtualizado}`);
 
-    object = await Obra.updateMany({ autorObra: nota }, { autorObra: nota2 });
+    object = await Obra.updateMany({ autorObra: autorAtual }, { autorObra: autorAtualizado });
+  }
+  // =========================================     RECOMENDAÇÃO DE LIVRO     ===========================================
+  if (message.content.toLowerCase().startsWith("?recomendacao")) {
+    const args = message.content.split(" ");
+
+    var random = Math.floor(Math.random() * 5);
+
+    if (args.length === 1) {
+      Obra.findOne()
+        .skip(random)
+        .exec(function (erro, result) {
+          const Embed = new MessageEmbed()
+            .setColor(0x0099ff)
+            .setTitle(result.nomeObra)
+            .setDescription(result.sinopseObra)
+            .setThumbnail(
+              "https://ifrs.edu.br/restinga/wp-content/uploads/sites/5/2018/05/marca-ifrs-vertical.jpg"
+            )
+            .addFields(
+              {
+                name: "Gênero da Obra",
+                value: result.generoTextualObra
+              },
+              {
+                name: "Status",
+                value: result.statusObra
+              },
+              {
+                name: "Link para acessar a obra",
+                value: result.linkAcessoObra
+              },
+            );
+          message.channel.send({ embeds: [Embed] });
+          message.author.send({ embeds: [Embed] });
+        });
+    }
+  }
+  // =========================================         HELP DISCORD          ===========================================
+  if (message.content.toLowerCase().startsWith("?help")) {
+    const Embed = new MessageEmbed()
+      .setColor(0x0099ff)
+      .setTitle("Lista de Comandos")
+      .setDescription("Abaixo segue os comandos utilizados pelo BOT.")
+      .setThumbnail(
+        "https://ifrs.edu.br/restinga/wp-content/uploads/sites/5/2018/05/marca-ifrs-vertical.jpg"
+      )
+      .addFields(
+        {
+          name: "Comandos de Criação",
+          value:
+            "`!obranova`\n" +
+            "`/formulario_cadastro_autor`\n" +
+            "`/formulario_cadastro_livro`\n",
+        },
+        {
+          name: "Comandos de Busca",
+          value: "`?obrasautor`\n" + "`?pesquisar_obras`\n"+ "`?atributo`\n",
+          inline: true,
+        },
+        {
+          name: "Comandos de Delete",
+          value: "`?deleteautor`\n" + "`?deleteobrasautor`\n",
+          inline: true,
+        }
+      );
+    message.channel.send({ embeds: [Embed] });
+    message.author.send({ embeds: [Embed] });
   }
 });
 
@@ -536,43 +584,7 @@ client.on("message", async (message) => {
       }
     }
   }
-  // ======================================= RECOMENDAÇÃO DE LIVRO =========================
-  if (message.content.toLowerCase().startsWith("?recomendacao")) {
-    const args = message.content.split(" ");
-
-    var random = Math.floor(Math.random() * 5);
-
-    if (args.length === 1) {
-      Obra.findOne()
-        .skip(random)
-        .exec(function (erro, result) {
-          const Embed = new MessageEmbed()
-            .setColor(0x0099ff)
-            .setTitle(result.nomeObra)
-            .setDescription(result.sinopseObra)
-            .setThumbnail(
-              "https://ifrs.edu.br/restinga/wp-content/uploads/sites/5/2018/05/marca-ifrs-vertical.jpg"
-            )
-            .addFields(
-              {
-                name: "Gênero da Obra",
-                value: result.generoTextualObra
-              },
-              {
-                name: "Status",
-                value: result.statusObra
-              },
-              {
-                name: "Link para acessar a obra",
-                value: result.linkAcessoObra
-              },
-            );
-          message.channel.send({ embeds: [Embed] });
-          message.author.send({ embeds: [Embed] });
-        });
-    }
-  }
-
+  
   /* =============================== CRIAÇÃO DE NOTA NOVA NO BANCO DE DADOS =========================== */
   if (message.content.toLowerCase().startsWith("?createnote")) {
     const index = message.content.indexOf(" ");
@@ -643,34 +655,5 @@ client.on("message", async (message) => {
       { description: nota2 }
     );
   }
-  if (message.content.toLowerCase().startsWith("?help")) {
-    const Embed = new MessageEmbed()
-      .setColor(0x0099ff)
-      .setTitle("Lista de Comandos")
-      .setDescription("Abaixo segue os comandos utilizados pelo BOT.")
-      .setThumbnail(
-        "https://ifrs.edu.br/restinga/wp-content/uploads/sites/5/2018/05/marca-ifrs-vertical.jpg"
-      )
-      .addFields(
-        {
-          name: "Comandos de Criação:",
-          value:
-            "`!obranova`\n" +
-            "`/formulario_cadastro_autor`\n" +
-            "`/formulario_cadastro_livro`\n",
-        },
-        {
-          name: "Comandos de Busca:",
-          value: "`?obrasautor`\n" + "`?pesquisar_obras`\n",
-          inline: true,
-        },
-        {
-          name: "Comandos de Delete:",
-          value: "`?deleteautor`\n" + "`?deleteobrasautor`\n",
-          inline: true,
-        }
-      );
-    message.channel.send({ embeds: [Embed] });
-    message.author.send({ embeds: [Embed] });
-  }
+  
 });

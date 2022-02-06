@@ -589,7 +589,7 @@ client.on("messageCreate", async (message) => {
       const argumento = await Autor.find({ discordId: message.author.id });
       let description = "";
       for (const i in argumento) {
-        description += `${parseInt(i) + 1}) ${argumento[i].autorObra}\n`;
+        description += `${parseInt(i) + 1}) ${argumento[i].nomeAutor}\n`;
       }
       message.channel.send(description);
     } else {
@@ -598,7 +598,7 @@ client.on("messageCreate", async (message) => {
 
       try {
         const palavra = await Autor.deleteOne({
-          autorObra: arg,
+          nomeAutor: arg,
         }); /*, function (err, obra) {
               if (err) return handleError(err);
               // Prints "Space Ghost is a talk show host".*/

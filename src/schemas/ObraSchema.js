@@ -24,6 +24,9 @@ const ObraSchemas = mongoose.Schema({
     },
     sinopseObra: {
         type: String,
+    },
+    idObra: {
+        type: Number,
     }
 });
 

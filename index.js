@@ -114,7 +114,6 @@ client.on("messageCreate", async (message) => {
             ],
           };
           message.channel.send({ embeds: [retornoEmbed] });
-          console.log("Erro!");
         }
       }
     } else {
@@ -133,7 +132,7 @@ client.on("messageCreate", async (message) => {
           "linkObra",
           "faixaObra",
           "statusObra",
-          "generoObra",
+          "tipoObra",
         ];
         for (const i in array) {
           let result = array[i].toLowerCase().includes(atributo.toLowerCase());
@@ -375,8 +374,9 @@ client.on("messageCreate", async (message) => {
                   }
                 }
                 break;
-              case "generoobra":
-                object = await Obra.find({ generoObra: valor });
+              case "tipoobra":
+                object = await Obra.find({ generoObra: valores });
+                console.log(valores)
                 for (const i in object) {
                   const retornoEmbed = {
                     color: "RANDOM",
@@ -421,7 +421,6 @@ client.on("messageCreate", async (message) => {
                     message.channel.send("===============================");
                   }
                 }
-                console.log("Erro!");
                 break;
               default:
                 message.channel.send(
@@ -438,6 +437,7 @@ client.on("messageCreate", async (message) => {
   }
   // =========================================  PESQUISA AS OBRAS DO AUTOR  ============================================
   if (message.content.toLowerCase().startsWith("?obras_autor")) {
+    var contador = 0;
     //pesquisa no schema Obra
     const args = message.content.split(" ");
     console.log(args);
@@ -467,55 +467,56 @@ client.on("messageCreate", async (message) => {
       const arg = args[1];
       console.log(arg)
       try {
-        const palavra = await Obra.findOne({
+        const palavra = await Obra.find({
           autorObra: arg,
-        }); /*, function (err, obra) {
-                  if (err) return handleError(err);
-                  // Prints "Space Ghost is a talk show host".*/
-        //console.log(obra.nome_obra, obra.discordId);
-        //({ discordId: message.author.id});  //nao funciona mesmo igual ao de cima... ver se é pelo tipo da variavel
+        });
         console.log(palavra);
 
-        if (palavra) {
+        for (const i in palavra) {
           const retornoEmbed = {
             color: "RANDOM",
-            title: "Obra: " + palavra.nomeObra,
+            title: `Obra: ${palavra[i].nomeObra}`,
             fields: [
               {
                 name: "Autor Obra",
-                value: palavra.autorObra,
+                value: palavra[i].autorObra,
                 inline: true,
               },
               {
                 name: "Faixa Etária",
-                value: palavra.faixaEtariaObra,
+                value: palavra[i].faixaEtariaObra,
                 inline: true,
               },
               {
                 name: "Gênero Textual",
-                value: palavra.generoTextualObra,
+                value: palavra[i].generoTextualObra,
                 inline: true,
               },
               {
                 name: "Status Obra",
-                value: palavra.statusObra,
+                value: palavra[i].statusObra,
                 inline: true,
               },
               {
                 name: "Link Acesso",
-                value: palavra.linkAcessoObra,
+                value: palavra[i].linkAcessoObra,
                 inline: true,
               },
               {
                 name: "Sinopse",
-                value: palavra.sinopseObra,
+                value: palavra[i].sinopseObra,
               },
             ],
           };
           message.channel.send({ embeds: [retornoEmbed] });
-        } else {
-          message.channel.send("Não encontrado o valor informado.");
+          contador += 1;
+          if (palavra.length === contador){
+            break;
+          } else if (palavra.length > 1) {
+            message.channel.send("=========================");
+          }
         }
+      
       } catch (err) {
         console.log(err);
         message.channel.send("Não encontrado");
@@ -768,6 +769,10 @@ client.on("messageCreate", async (message) => {
           name: "Comandos Clube",
           value: "`?criar_clube` " + "` ?adicionar_usuario_clube (draft)` ",
           //inline: true,
+        },
+        {
+          name: "Comandos de Update",
+          value: "`?update_atributo_nomeobra` " + "`?update_atributo_autorobra` " + "`?update_status_obra` " + "`?update_autorobra_idobra`"
         }
       );
     message.channel.send({ embeds: [Embed] });
@@ -828,13 +833,14 @@ client.on("messageCreate", async (message) => {
   if (message.content.toLowerCase().startsWith("?criar_clube")) {
     const index = message.content.indexOf(" ");
     const nomeClube = message.content.slice(index + 1);
+
     message.guild.channels
       .create(nomeClube, {
         type: "GUILD_TEXT",
       })
       .then((channel) => {
         console.log(channel);
-        const categoryID = "909159122002407464";
+        const categoryID = "939793847448399907";
         channel.setParent(categoryID);
       });
   }
